@@ -1,13 +1,9 @@
 """ Util class for general functions """
 import math
 import os
-from dotenv import load_dotenv
-
 
 class Utils:
     """ Util class for general functions """
-
-    load_dotenv()
 
     def __is_float(self, string_for_verification: str) -> str|int:
         """ Check if a string is a float """

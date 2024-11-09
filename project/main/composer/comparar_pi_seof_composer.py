@@ -23,7 +23,7 @@ from project.adapters.controllers.comparar_pis_controller import CompararPisCont
 def comparar_pi_seof_composer(input_file_path_principal, input_file_path_secundario, data_da_conferencia) -> str : 
     """ Compare PI with SEOF Composer """
     plano_interno_pi = PlanoInterno()
-    output_file_path_pi = f"../pdf_ocr/pi_{data_da_conferencia}.pdf"
+    output_file_path_pi = f"./pdf_ocr/pi_{data_da_conferencia}.pdf"
     utils = Utils()
     credentials = utils.get_credentials()
     criar_output_path_to_pdf_ocr = CriarOutputPathToPdfOcr()
@@ -41,7 +41,7 @@ def comparar_pi_seof_composer(input_file_path_principal, input_file_path_secunda
     plano_interno_pi_populado = popular_plano_interno_controller.handle_request(credentials, input_file_path_principal, output_file_path_pi)
 
     plano_interno_seof = PlanoInternoSeof()
-    output_file_path_pi_seof = f"../pdf_ocr/pi_seof_{data_da_conferencia}.pdf"
+    output_file_path_pi_seof = f"./pdf_ocr/pi_seof_{data_da_conferencia}.pdf"
     ler_dados_seof = LerDadosSeof()
     processar_dados_bruto_seof = ProcessarDadosBrutos(ler_dados_seof, pdf_conversor_to_pdf_ocr, criar_output_path_to_pdf_ocr, verificar_existencia_de_arquivo)
     sanitiza_pi_seof = SanitizarPiSeof()

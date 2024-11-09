@@ -24,7 +24,7 @@ from project.adapters.controllers.comparar_pis_controller import CompararPisCont
 def comparar_pi_siafi_composer(input_file_path_principal: str, input_file_path_secundario: str, data_da_conferencia: str) -> str:
     """ Compare PI with SIAFI Composer """
     plano_interno_pi = PlanoInterno()
-    output_file_path_pi = f"../pdf_ocr/pi_{data_da_conferencia}.pdf"
+    output_file_path_pi = f"./pdf_ocr/pi_{data_da_conferencia}.pdf"
     utils = Utils()
     credentials = utils.get_credentials()
     criar_output_path_to_pdf_ocr = CriarOutputPathToPdfOcr()
@@ -44,7 +44,7 @@ def comparar_pi_siafi_composer(input_file_path_principal: str, input_file_path_s
     pdf_conversor_to_excel = PdfConversorToExcel()
     criar_output_path_to_excel = CriarOutputPathToExcel()
     plano_interno_siafi = PlanoInternoSiafi()
-    output_file_path_pi_siafi = f"../excel/pi_siafi_{data_da_conferencia}.xlsx"
+    output_file_path_pi_siafi = f"./excel/pi_siafi_{data_da_conferencia}.xlsx"
     ler_dados_siafi = LerDadosSiafi()
     processar_dados_bruto_siafi = ProcessarDadosBrutos(ler_dados_siafi, pdf_conversor_to_excel, criar_output_path_to_excel, verificar_existencia_de_arquivo)
     sanitiza_pi_siafi = SanitizarPiSiafi()

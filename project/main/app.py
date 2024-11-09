@@ -1,12 +1,17 @@
 from project.main.composer.comparar_pi_siafi_composer import comparar_pi_siafi_composer
 from project.main.composer.comparar_pi_seof_composer import comparar_pi_seof_composer
 from project.infra.criar_pastas import CriarPastas
+from project.infra.initial_configs import InitialConfigs
 
 class App:
 
     def __criar_pastas(self):
         criar_pastas = CriarPastas()
         criar_pastas.execute()
+
+    def __inicializar_configs(self):
+        initial_configs = InitialConfigs()
+        initial_configs.execute()
 
     def __comparar_pi_seof(self, input_file_path_principal, data_da_conferencia):
         print(f'Comparar PI com SEOF')
@@ -25,6 +30,7 @@ class App:
         print()
 
     def run(self):
+        self.__inicializar_configs()
         print('Bem vindo ao comparador de PIs')
         print('Escolha uma das opções abaixo:')
         print('1 - Comparar PI com SEOF e Comparar PI com SIAFI')
