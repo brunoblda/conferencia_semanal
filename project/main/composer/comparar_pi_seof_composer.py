@@ -17,6 +17,7 @@ from project.use_cases.mapear.pi_seof.command.sanitizar_pi_seof import Sanitizar
 from project.use_cases.popular_plano_interno import PopularPlanoInterno
 from project.adapters.controllers.popular_plano_interno_controller import PopularPlanoInternoController
 from project.use_cases.comparar.comparar_pi_seof import CompararPiSeof
+from project.infra.pdf_output import PdfOutput
 from project.adapters.controllers.comparar_pis_controller import CompararPisController 
 
 
@@ -54,8 +55,13 @@ def comparar_pi_seof_composer(input_file_path_principal, input_file_path_secunda
     plano_interno_seof_populado = popular_plano_interno_controller_seof.handle_request(credentials, input_file_path_secundario, output_file_path_pi_seof)
 
     comparar_pi_seof = CompararPiSeof()
-    comparar_pi_seof_controller = CompararPisController(comparar_pi_seof)
 
-    comparacao_pi_seof = comparar_pi_seof_controller.handle_request(plano_interno_pi_populado.get_dict(), plano_interno_seof_populado.get_dict())
+    pdf_output = PdfOutput()
+
+    pdf_output_name = f"resultado_PI_SEOF_{data_da_conferencia}"
+
+    comparar_pi_seof_controller = CompararPisController(comparar_pi_seof, pdf_output)
+
+    comparacao_pi_seof = comparar_pi_seof_controller.handle_request(plano_interno_pi_populado.get_dict(), plano_interno_seof_populado.get_dict(), pdf_output_name)
 
     return comparacao_pi_seof

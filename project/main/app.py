@@ -15,7 +15,9 @@ class App:
 
     def __comparar_pi_seof(self, input_file_path_principal, data_da_conferencia):
         print(f'Comparar PI com SEOF')
+        print()
         input_file_path_secundario = input(f'Digite o caminho do arquivo do SEOF: ')
+        print()
         comparacao_pi_seof = comparar_pi_seof_composer(input_file_path_principal, input_file_path_secundario, data_da_conferencia)
         print()
         print(comparacao_pi_seof)
@@ -23,7 +25,9 @@ class App:
 
     def __comparar_pi_siafi(self, input_file_path_principal, data_da_conferencia):
         print(f'Comparar PI com SIAFI')
+        print()
         input_file_path_secundario = input(f'Digite o caminho do arquivo do SIAFI: ')
+        print()
         comparacao_pi_siafi = comparar_pi_siafi_composer(input_file_path_principal, input_file_path_secundario, data_da_conferencia)
         print()
         print(comparacao_pi_siafi)
@@ -32,19 +36,36 @@ class App:
     def run(self):
         self.__inicializar_configs()
         print('Bem vindo ao comparador de PIs')
+        print()
         print('Escolha uma das opções abaixo:')
-        print('1 - Comparar PI com SEOF e Comparar PI com SIAFI')
-        print('2 - Sair')
+        print('1 - Comparar PI com SEOF')
+        print('2 - Comparar PI com SIAFI')
+        print('3 - Sair')
+        print()
         option = input('Digite a opção desejada: ')
         if option == '1':
+            print()
             data_da_conferencia = input('Digite a data da conferência: ')
+            print()
             input_file_path_principal = input(f'Digite o caminho do arquivo do Plano Interno: ')
+            print()
             self.__criar_pastas()
             self.__comparar_pi_seof(input_file_path_principal, data_da_conferencia)
             print()
-            print()
-            self.__comparar_pi_siafi(input_file_path_principal, data_da_conferencia)
+            self.run()
+
         elif option == '2':
+            print()
+            data_da_conferencia = input('Digite a data da conferência: ')
+            print()
+            input_file_path_principal = input(f'Digite o caminho do arquivo do Plano Interno: ')
+            print()
+            self.__criar_pastas()
+            self.__comparar_pi_siafi(input_file_path_principal, data_da_conferencia)
+            print()
+            self.run()
+
+        elif option == '3':
             print('Até a próxima!')
         else:
             print('Opção inválida')

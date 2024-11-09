@@ -18,6 +18,7 @@ from project.use_cases.mapear.pi_siafi.command.pegar_indices_pi_siafi import Peg
 from project.use_cases.mapear.pi_siafi.command.sanitizar_pi_siafi import SanitizarPiSiafi
 from project.use_cases.popular_plano_interno import PopularPlanoInterno
 from project.adapters.controllers.popular_plano_interno_controller import PopularPlanoInternoController
+from project.infra.pdf_output import PdfOutput
 from project.use_cases.comparar.comparar_pi_siafi import CompararPiSiafi
 from project.adapters.controllers.comparar_pis_controller import CompararPisController
 
@@ -57,8 +58,13 @@ def comparar_pi_siafi_composer(input_file_path_principal: str, input_file_path_s
     plano_interno_siafi_populado = popular_plano_interno_controller_siafi.handle_request(credentials, input_file_path_secundario, output_file_path_pi_siafi)
 
     comparar_pi_siafi = CompararPiSiafi()
-    comparar_pi_siafi_controller = CompararPisController(comparar_pi_siafi)
+
+    pdf_output = PdfOutput()
+
+    pdf_output_name = f"resultado_PI_SIAFI_{data_da_conferencia}"
+
+    comparar_pi_siafi_controller = CompararPisController(comparar_pi_siafi, pdf_output)
     
-    comparacao_pi_siafi = comparar_pi_siafi_controller.handle_request(plano_interno_pi_populado.get_dict(), plano_interno_siafi_populado.get_dict())
+    comparacao_pi_siafi = comparar_pi_siafi_controller.handle_request(plano_interno_pi_populado.get_dict(), plano_interno_siafi_populado.get_dict(), pdf_output_name)
 
     return comparacao_pi_siafi

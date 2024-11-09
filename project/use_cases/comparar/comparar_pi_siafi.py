@@ -16,7 +16,7 @@ class CompararPiSiafi(CompararPisInterface):
         col_3 = "VALOR PI"
         col_4 = "VALOR SIAFI"
         col_5 = "DIF.: PI - SIAFI"
-        response = f"|{col_1:^15}|{col_2:^17}|{col_3:^15}|{col_4:^15}|{col_5:<17}|\n"
+        response = f"|{col_1:^15}|{col_2:^17}|{col_3:^15}|{col_4:^15}|{col_5:^17}|\n"
         response += f"|{'':-^15}|{'':-^17}|{'':-^15}|{'':-^15}|{'':-^17}|\n"
         
         # para cada plano interno no dicionario de planos internos
