@@ -1,3 +1,4 @@
+from project.main.adapters.comparar_pi_request_adapter import comparar_pi_request_adapter 
 from project.main.composer.comparar_pi_siafi_composer import comparar_pi_siafi_composer
 from project.main.composer.comparar_pi_seof_composer import comparar_pi_seof_composer
 from project.infra.criar_pastas import CriarPastas
@@ -18,7 +19,8 @@ class App:
         print()
         input_file_path_secundario = input(f'Digite o caminho do arquivo do SEOF: ')
         print()
-        comparacao_pi_seof = comparar_pi_seof_composer(input_file_path_principal, input_file_path_secundario, data_da_conferencia)
+        request_adapted = comparar_pi_request_adapter(input_file_path_principal, input_file_path_secundario, data_da_conferencia)
+        comparacao_pi_seof = comparar_pi_seof_composer(request_adapted)
         print()
         print(comparacao_pi_seof)
         print()
@@ -28,7 +30,8 @@ class App:
         print()
         input_file_path_secundario = input(f'Digite o caminho do arquivo do SIAFI: ')
         print()
-        comparacao_pi_siafi = comparar_pi_siafi_composer(input_file_path_principal, input_file_path_secundario, data_da_conferencia)
+        request_adapted = comparar_pi_request_adapter(input_file_path_principal, input_file_path_secundario, data_da_conferencia)
+        comparacao_pi_siafi = comparar_pi_siafi_composer(request_adapted)
         print()
         print(comparacao_pi_siafi)
         print()
@@ -70,4 +73,3 @@ class App:
         else:
             print('Opção inválida')
             self.run()
-

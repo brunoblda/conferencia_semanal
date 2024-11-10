@@ -22,8 +22,13 @@ from project.infra.pdf_output import PdfOutput
 from project.use_cases.comparar.comparar_pi_siafi import CompararPiSiafi
 from project.adapters.controllers.comparar_pis_controller import CompararPisController
 
-def comparar_pi_siafi_composer(input_file_path_principal: str, input_file_path_secundario: str, data_da_conferencia: str) -> str:
+def comparar_pi_siafi_composer(request: dict) -> str:
     """ Compare PI with SIAFI Composer """
+
+    input_file_path_principal = request['input_file_path_principal']
+    input_file_path_secundario = request['input_file_path_secundario']
+    data_da_conferencia = request['data_da_conferencia']
+
     plano_interno_pi = PlanoInterno()
     output_file_path_pi = f"./pdf_ocr/pi_{data_da_conferencia}.pdf"
     utils = Utils()

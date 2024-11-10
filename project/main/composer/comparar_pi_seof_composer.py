@@ -21,8 +21,13 @@ from project.infra.pdf_output import PdfOutput
 from project.adapters.controllers.comparar_pis_controller import CompararPisController 
 
 
-def comparar_pi_seof_composer(input_file_path_principal, input_file_path_secundario, data_da_conferencia) -> str : 
+def comparar_pi_seof_composer(request: dict) -> str : 
     """ Compare PI with SEOF Composer """
+    
+    input_file_path_principal = request['input_file_path_principal']
+    input_file_path_secundario = request['input_file_path_secundario']
+    data_da_conferencia = request['data_da_conferencia']
+
     plano_interno_pi = PlanoInterno()
     output_file_path_pi = f"./pdf_ocr/pi_{data_da_conferencia}.pdf"
     utils = Utils()
