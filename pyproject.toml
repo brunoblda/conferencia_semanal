@@ -22,7 +22,7 @@ taskipy = "^1.14.0"
 ignr = "^2.2"
 
 [tool.taskipy.tasks]
-build = "pyinstaller --name conferencia_semanal --onefile main.py --add-data .env:. --add-data .venv/Lib/site-packages/tabula/tabula-1.0.5-jar-with-dependencies.jar:tabula"
+build = "pyinstaller --name conferencia_semanal --onefile  main.py --add-data certificados.pem:. --add-data .env:. --add-data .venv/Lib/site-packages/tabula/tabula-1.0.5-jar-with-dependencies.jar:tabula"
 
 [build-system]
 requires = ["poetry-core"]

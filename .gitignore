@@ -10,10 +10,6 @@ __pycache__/
 # C extensions
 *.so
 
-# pasta de arquivos de teste
-excel/
-pdf_ocr/
-
 # Distribution / packaging
 .Python
 build/
@@ -85,6 +81,9 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+
+# certificados ssl
+certificados.pem
 
 # IPython
 profile_default/
