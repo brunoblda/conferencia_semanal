@@ -2,6 +2,10 @@
 def comparar_pi_request_adapter(input_file_path_principal: str, input_file_path_secundario: str, data_da_conferencia: str) -> dict:
     """ Request Adapter """
 
+    input_file_path_principal = input_file_path_principal.strip()
+    input_file_path_secundario = input_file_path_secundario.strip()
+    data_da_conferencia = data_da_conferencia.strip()
+
     if input_file_path_principal[0] == "\'" or input_file_path_principal[0] == "\"":
         input_file_path_principal = input_file_path_principal[1:] 
     if input_file_path_principal[-1] == "\'" or input_file_path_principal[-1] == "\"":
