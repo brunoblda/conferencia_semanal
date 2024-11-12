@@ -1,3 +1,5 @@
+import logging
+import sys
 from project.main.adapters.comparar_pi_request_adapter import comparar_pi_request_adapter 
 from project.main.composer.comparar_pi_siafi_composer import comparar_pi_siafi_composer
 from project.main.composer.comparar_pi_seof_composer import comparar_pi_seof_composer
@@ -5,6 +7,31 @@ from project.infra.criar_pastas import CriarPastas
 from project.infra.initial_configs import InitialConfigs
 
 class App:
+
+    def __init__(self):
+        self.__setup_logger()
+        sys.excepthook = self.__handle_exception
+
+    def __setup_logger(self):
+        logger = logging.getLogger()
+        logger.setLevel(logging.DEBUG)
+        
+        # Criar um manipulador de arquivo
+        fh = logging.FileHandler('error_log.txt')
+        fh.setLevel(logging.ERROR)
+        
+        # Criar um formatador e adicioná-lo ao manipulador
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        fh.setFormatter(formatter)
+        
+        # Adicionar o manipulador ao logger
+        logger.addHandler(fh)
+
+    def __handle_exception(self, exc_type, exc_value, exc_traceback):
+        if issubclass(exc_type, KeyboardInterrupt):
+            sys.__excepthook__(exc_type, exc_value, exc_traceback)
+            return
+        logging.getLogger().error("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
 
     def __criar_pastas(self):
         criar_pastas = CriarPastas()
