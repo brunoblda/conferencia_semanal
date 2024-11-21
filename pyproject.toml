@@ -8,14 +8,13 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = ">=3.12,<3.13"
 pandas = "^2.2.3"
-kivy = {extras = ["full"], version = "^2.3.0"}
-kivy-examples = "^2.3.0"
 pdfservices-sdk = "^4.0.0"
 tabula-py = "^2.10.0"
 python-dotenv = "^1.0.1"
 jpype1 = "^1.5.0"
 openpyxl = "^3.1.5"
 fpdf2 = "^2.8.1"
+customtkinter = "^5.2.2"
 
 [tool.poetry.group.dev.dependencies]
 pyinstaller = "^6.11.0"
@@ -23,7 +22,7 @@ taskipy = "^1.14.0"
 ignr = "^2.2"
 
 [tool.taskipy.tasks]
-build = "pyinstaller --name conferencia_semanal --onefile  main.py --add-data certificados.pem:. --add-data .env:. --add-data .venv/Lib/site-packages/tabula/tabula-1.0.5-jar-with-dependencies.jar:tabula"
+build = "pyinstaller --name conferencia_semanal --windowed --onefile  main.py --add-data certificados.pem:. --add-data .env:. --add-data .venv/Lib/site-packages/tabula/tabula-1.0.5-jar-with-dependencies.jar:tabula"
 
 [build-system]
 requires = ["poetry-core"]
