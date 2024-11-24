@@ -1,5 +1,6 @@
 from project.use_cases.interfaces.transformar_arquivos.criar_output_path import CriarOutputPath as CriarOutputPathInterface
 from adobe.pdfservices.operation.io.stream_asset import StreamAsset
+from project.errors.types.file_not_found import FileNotFound
 
 class CriarOutputPathToExcel(CriarOutputPathInterface):
     def execute(self, output_file_path: str, stream_asset: StreamAsset):
@@ -10,6 +11,7 @@ class CriarOutputPathToExcel(CriarOutputPathInterface):
                 file.write(stream_asset.get_input_stream())
             return excel_path
         except Exception as e:
-            print(f"Error: {e}")
+            if isinstance(e, FileNotFoundError):
+                raise FileNotFound("Arquivo EXCEL criado não foi encontrado")
             return e
 

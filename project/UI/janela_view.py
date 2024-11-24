@@ -1,5 +1,6 @@
 from project.UI.controller_app import ControllerApp
 from project.UI.pop_up_loading import PopUpLoading
+from project.adapters.presenters.response_format import ResponseFormat
 import customtkinter as ctk
 from tkinter import filedialog
 import sys
@@ -126,12 +127,9 @@ class JanelaView(ctk.CTk):
                     self.handle_compare_result
                 )
     
-    def handle_compare_result(self, result):
+    def handle_compare_result(self, result: ResponseFormat):
         self.close_pop_up_loading()
-        if result:
-            self.response_message.configure(text="Comparação concluída com sucesso!")
-        else:
-            self.response_message.configure(text="Erro na comparação. Verifique os logs para mais detalhes.")
+        self.response_message.configure(text=result.message)
 
     def select_file_plano_interno(self):
         file_path = filedialog.askopenfilename(title="Selecione o Arquivo do Plano Interno")
@@ -179,5 +177,3 @@ class JanelaView(ctk.CTk):
         for widget in self.winfo_children():
             widget.configure(state='normal')
         self.__on_radio_button()
-
-        

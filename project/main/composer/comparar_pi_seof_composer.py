@@ -19,9 +19,10 @@ from project.adapters.controllers.popular_plano_interno_controller import Popula
 from project.use_cases.comparar.comparar_pi_seof import CompararPiSeof
 from project.infra.pdf_output import PdfOutput
 from project.adapters.controllers.comparar_pis_controller import CompararPisController 
+from project.adapters.presenters.response_format import ResponseFormat
 
 
-def comparar_pi_seof_composer(request: dict) -> str : 
+def comparar_pi_seof_composer(request: dict) ->  ResponseFormat: 
     """ Compare PI with SEOF Composer """
     
     input_file_path_principal = request['input_file_path_principal']

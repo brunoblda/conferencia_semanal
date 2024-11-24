@@ -4,6 +4,7 @@ from project.domain.interfaces.mapear.mapear_pi import MapearPi as MapearPiInter
 from project.domain.interfaces.processar_dados_brutos.processar_dados_brutos import ProcessarDadosBrutos as ProcessarDadosBrutosInterface
 from project.domain.interfaces.plano_interno import PlanoInterno as PlanoInternoInterface
 from project.use_cases.interfaces.pdf_output import PdfOutput as PdfOutputInterface
+from project.adapters.presenters.response_format import ResponseFormat
 
 class CompararPisController(CompararPisControllerInterface):
     """ Controller to compare PI_principal com PI_secundário """
@@ -19,6 +20,6 @@ class CompararPisController(CompararPisControllerInterface):
         comparacao_planos_internos = self.__comparar_pis.execute(plano_interno_principal, plano_interno_secundario)
         self.__pdf_output.write_pdf(comparacao_planos_internos, pdf_output_name)
 
-        return comparacao_planos_internos
+        return ResponseFormat(message='Comparação realizada com sucesso!',body={'data':comparacao_planos_internos})
 
 

@@ -17,7 +17,7 @@ class ProcessarDadosBrutos(ProcessarDadosBrutosInterface):
     def execute(self, credentials: dict, input_path: str, output_file_path: str) -> pd.DataFrame|list[str]:
         """ execute the processar dados brutos """
         dado_processado_path = output_file_path
-        if not self.__verificar_existencia_de_arquivo.execute(output_file_path):
+        if not self.__verificar_existencia_de_arquivo.execute(dado_processado_path):
             stream_asset = self.__pdf_conversor.execute(credentials, input_path)
             dado_processado_path = self.__criar_output_path.execute(output_file_path, stream_asset)
         dados_processados = self.__ler_dados.execute(dado_processado_path)        

@@ -5,6 +5,8 @@ from project.main.composer.comparar_pi_siafi_composer import comparar_pi_siafi_c
 from project.main.composer.comparar_pi_seof_composer import comparar_pi_seof_composer
 from project.infra.criar_pastas import CriarPastas
 from project.infra.initial_configs import InitialConfigs
+from project.errors.error_handler import handle_error
+from project.validators.conferencia_data_validator import conferencia_data_validator
 
 class App:
 
@@ -46,10 +48,15 @@ class App:
         print()
         input_file_path_secundario = input(f'Digite o caminho do arquivo do SEOF: ')
         print()
-        request_adapted = comparar_pi_request_adapter(input_file_path_principal, input_file_path_secundario, data_da_conferencia)
-        comparacao_pi_seof = comparar_pi_seof_composer(request_adapted)
+        try:
+            conferencia_data_validator(data_da_conferencia)
+            request_adapted = comparar_pi_request_adapter(input_file_path_principal, input_file_path_secundario, data_da_conferencia)
+            comparacao_pi_seof = comparar_pi_seof_composer(request_adapted)
+        except Exception as e:
+            comparacao_pi_seof = handle_error(e)
         print()
-        print(comparacao_pi_seof)
+        print(comparacao_pi_seof.message)
+        print(comparacao_pi_seof.body)
         print()
 
     def __comparar_pi_siafi(self, input_file_path_principal, data_da_conferencia):
@@ -57,10 +64,15 @@ class App:
         print()
         input_file_path_secundario = input(f'Digite o caminho do arquivo do SIAFI: ')
         print()
-        request_adapted = comparar_pi_request_adapter(input_file_path_principal, input_file_path_secundario, data_da_conferencia)
-        comparacao_pi_siafi = comparar_pi_siafi_composer(request_adapted)
+        try:
+            conferencia_data_validator(data_da_conferencia)
+            request_adapted = comparar_pi_request_adapter(input_file_path_principal, input_file_path_secundario, data_da_conferencia)
+            comparacao_pi_siafi = comparar_pi_siafi_composer(request_adapted)
+        except Exception as e:
+            comparacao_pi_siafi = handle_error(e)
         print()
-        print(comparacao_pi_siafi)
+        print(comparacao_pi_siafi.message)
+        print(comparacao_pi_siafi.body)
         print()
 
     def run(self):

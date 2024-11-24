@@ -1,4 +1,6 @@
+from project.use_cases.interfaces.transformar_arquivos.pdf_conversor import PdfConversor as PdfConversorInterface
 import logging
+from project.errors.types.file_not_found import FileNotFound
 from adobe.pdfservices.operation.auth.service_principal_credentials import ServicePrincipalCredentials
 from adobe.pdfservices.operation.exception.exceptions import ServiceApiException, ServiceUsageException, SdkException
 from adobe.pdfservices.operation.io.cloud_asset import CloudAsset
@@ -16,7 +18,6 @@ from adobe.pdfservices.operation.pdfjobs.params.ocr_pdf.ocr_supported_locale imp
 from adobe.pdfservices.operation.pdfjobs.params.ocr_pdf.ocr_supported_type import OCRSupportedType
 from adobe.pdfservices.operation.pdfjobs.result.ocr_pdf_result import OCRPDFResult
 
-from project.use_cases.interfaces.transformar_arquivos.pdf_conversor import PdfConversor as PdfConversorInterface
 
 class PdfConversorToExcel(PdfConversorInterface):
 
@@ -67,5 +68,8 @@ class PdfConversorToExcel(PdfConversorInterface):
 
             return stream_asset
 
-        except (ServiceApiException, ServiceUsageException, SdkException) as e:
-            logging.exception(f'Exception encountered while executing operation: {e}')
+        except Exception as e:
+            if isinstance(e, (ServiceApiException, ServiceUsageException, SdkException)):
+                logging.exception(f'Exception encountered while executing operation: {e}')
+            if isinstance(e, FileNotFoundError):
+                raise FileNotFound("Arquivo não foi encontrado")

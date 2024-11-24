@@ -1,6 +1,8 @@
 from project.main.adapters.comparar_pi_request_adapter import comparar_pi_request_adapter
 from project.main.composer.comparar_pi_siafi_composer import comparar_pi_siafi_composer
 from project.main.composer.comparar_pi_seof_composer import comparar_pi_seof_composer
+from project.errors.error_handler import handle_error
+from project.validators.conferencia_data_validator import conferencia_data_validator
 import threading
 import logging
 from project.infra.criar_pastas import CriarPastas
@@ -25,9 +27,12 @@ class ControllerApp:
         result = None
         try:
             if not self._stop_event.is_set():
+                data_da_conferencia = args[-1]
+                conferencia_data_validator(data_da_conferencia)
                 result = target(*args)
-        except Exception:
+        except Exception as e:
             logging.getLogger().error("Exception in thread", exc_info=True)
+            result = handle_error(e)
         finally:
             if callback:
                 callback(result)
