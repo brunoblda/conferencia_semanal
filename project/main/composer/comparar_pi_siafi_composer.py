@@ -1,10 +1,10 @@
 from project.domain.entities.plano_interno import PlanoInterno
 from project.domain.entities.plano_interno_siafi import PlanoInternoSiafi
 from project.use_cases.processar_dados_brutos.processar_dados_brutos import ProcessarDadosBrutos
-from project.infra.transformar_arquivos.ocr.pdf_conversor_to_pdf_ocr import PdfConversorToPdfOcr
-from project.infra.transformar_arquivos.ocr.criar_output_path_to_pdf_ocr import CriarOutputPathToPdfOcr
-from project.infra.transformar_arquivos.excel.pdf_conversor_to_excel import PdfConversorToExcel
-from project.infra.transformar_arquivos.excel.criar_output_path_to_excel import CriarOutputPathToExcel
+from project.infra.transformar_arquivos.ocr.pdf_conversor_to_pdf_ocr_pi import PdfConversorToPdfOcrPi
+from project.infra.transformar_arquivos.ocr.criar_output_path_to_pdf_ocr_pi import CriarOutputPathToPdfOcrPi
+from project.infra.transformar_arquivos.excel.pdf_conversor_to_excel_siafi import PdfConversorToExcelSiafi
+from project.infra.transformar_arquivos.excel.criar_output_path_to_excel_siafi import CriarOutputPathToExcelSiafi
 from project.infra.pegar_dados_processados.ler_dados_pi import LerDadosPi
 from project.infra.pegar_dados_processados.ler_dados_siafi import LerDadosSiafi
 from project.infra.transformar_arquivos.verificar_existencia_de_arquivo import VerificarExistenciaDeArquivo
@@ -34,11 +34,11 @@ def comparar_pi_siafi_composer(request: dict) -> ResponseFormat:
     output_file_path_pi = f"./pdf_ocr/pi_{data_da_conferencia}.pdf"
     utils = Utils()
     credentials = utils.get_credentials()
-    criar_output_path_to_pdf_ocr = CriarOutputPathToPdfOcr()
+    criar_output_path_to_pdf_ocr_pi = CriarOutputPathToPdfOcrPi()
     ler_dados_pi = LerDadosPi()
-    pdf_conversor_to_pdf_ocr = PdfConversorToPdfOcr()
+    pdf_conversor_to_pdf_ocr_pi = PdfConversorToPdfOcrPi()
     verificar_existencia_de_arquivo = VerificarExistenciaDeArquivo()
-    processar_dados_bruto = ProcessarDadosBrutos(ler_dados_pi, pdf_conversor_to_pdf_ocr, criar_output_path_to_pdf_ocr, verificar_existencia_de_arquivo)
+    processar_dados_bruto = ProcessarDadosBrutos(ler_dados_pi, pdf_conversor_to_pdf_ocr_pi, criar_output_path_to_pdf_ocr_pi, verificar_existencia_de_arquivo)
     sanitizar_pi = SanitizarPi()
     dicionarizar_indices = DicionarizarIndices(utils)
     pegar_indices = PegarIndicesPi()
@@ -48,12 +48,12 @@ def comparar_pi_siafi_composer(request: dict) -> ResponseFormat:
 
     plano_interno_pi_populado = popular_plano_interno_controller.handle_request(credentials, input_file_path_principal, output_file_path_pi)
 
-    pdf_conversor_to_excel = PdfConversorToExcel()
-    criar_output_path_to_excel = CriarOutputPathToExcel()
+    pdf_conversor_to_excel_siafi = PdfConversorToExcelSiafi()
+    criar_output_path_to_excel_siafi = CriarOutputPathToExcelSiafi()
     plano_interno_siafi = PlanoInternoSiafi()
     output_file_path_pi_siafi = f"./excel/pi_siafi_{data_da_conferencia}.xlsx"
     ler_dados_siafi = LerDadosSiafi()
-    processar_dados_bruto_siafi = ProcessarDadosBrutos(ler_dados_siafi, pdf_conversor_to_excel, criar_output_path_to_excel, verificar_existencia_de_arquivo)
+    processar_dados_bruto_siafi = ProcessarDadosBrutos(ler_dados_siafi, pdf_conversor_to_excel_siafi, criar_output_path_to_excel_siafi, verificar_existencia_de_arquivo)
     sanitiza_pi_siafi = SanitizarPiSiafi()
     dicionarizar_indices_siafi = DicionarizarIndicesPiSiafi(utils)
     pegar_indices_siafi = PegarIndicesPiSiafi()

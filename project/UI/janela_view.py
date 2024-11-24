@@ -150,6 +150,7 @@ class JanelaView(ctk.CTk):
             self.entry_siafi.insert(0, file_path)
 
     def open_pop_up_loading(self,title, mensagem: str):
+        self.response_message.configure(text="")
         if self.pop_up_loading is None or not self.pop_up_loading.winfo_exists():
             self.pop_up_loading= PopUpLoading(title, mensagem)  # create window if its None or destroyed
             self.pop_up_loading.focus()  # if window exists focus it

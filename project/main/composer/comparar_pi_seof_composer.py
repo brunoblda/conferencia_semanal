@@ -1,8 +1,10 @@
 from project.domain.entities.plano_interno import PlanoInterno
 from project.domain.entities.plano_interno_seof import PlanoInternoSeof
 from project.use_cases.processar_dados_brutos.processar_dados_brutos import ProcessarDadosBrutos
-from project.infra.transformar_arquivos.ocr.pdf_conversor_to_pdf_ocr import PdfConversorToPdfOcr
-from project.infra.transformar_arquivos.ocr.criar_output_path_to_pdf_ocr import CriarOutputPathToPdfOcr
+from project.infra.transformar_arquivos.ocr.pdf_conversor_to_pdf_ocr_seof import PdfConversorToPdfOcrSeof
+from project.infra.transformar_arquivos.ocr.criar_output_path_to_pdf_ocr_seof import CriarOutputPathToPdfOcrSeof
+from project.infra.transformar_arquivos.ocr.pdf_conversor_to_pdf_ocr_pi import PdfConversorToPdfOcrPi
+from project.infra.transformar_arquivos.ocr.criar_output_path_to_pdf_ocr_pi import CriarOutputPathToPdfOcrPi
 from project.infra.pegar_dados_processados.ler_dados_pi import LerDadosPi
 from project.infra.pegar_dados_processados.ler_dados_seof import LerDadosSeof
 from project.infra.transformar_arquivos.verificar_existencia_de_arquivo import VerificarExistenciaDeArquivo
@@ -33,11 +35,11 @@ def comparar_pi_seof_composer(request: dict) ->  ResponseFormat:
     output_file_path_pi = f"./pdf_ocr/pi_{data_da_conferencia}.pdf"
     utils = Utils()
     credentials = utils.get_credentials()
-    criar_output_path_to_pdf_ocr = CriarOutputPathToPdfOcr()
+    criar_output_path_to_pdf_ocr_pi = CriarOutputPathToPdfOcrPi()
     ler_dados_pi = LerDadosPi()
-    pdf_conversor_to_pdf_ocr = PdfConversorToPdfOcr()
+    pdf_conversor_to_pdf_ocr_pi = PdfConversorToPdfOcrPi()
     verificar_existencia_de_arquivo = VerificarExistenciaDeArquivo()
-    processar_dados_bruto = ProcessarDadosBrutos(ler_dados_pi, pdf_conversor_to_pdf_ocr, criar_output_path_to_pdf_ocr, verificar_existencia_de_arquivo)
+    processar_dados_bruto = ProcessarDadosBrutos(ler_dados_pi, pdf_conversor_to_pdf_ocr_pi, criar_output_path_to_pdf_ocr_pi, verificar_existencia_de_arquivo)
     sanitizar_pi = SanitizarPi()
     dicionarizar_indices = DicionarizarIndices(utils)
     pegar_indices = PegarIndicesPi()
@@ -49,8 +51,10 @@ def comparar_pi_seof_composer(request: dict) ->  ResponseFormat:
 
     plano_interno_seof = PlanoInternoSeof()
     output_file_path_pi_seof = f"./pdf_ocr/pi_seof_{data_da_conferencia}.pdf"
+    criar_output_path_to_pdf_ocr_seof = CriarOutputPathToPdfOcrSeof()
     ler_dados_seof = LerDadosSeof()
-    processar_dados_bruto_seof = ProcessarDadosBrutos(ler_dados_seof, pdf_conversor_to_pdf_ocr, criar_output_path_to_pdf_ocr, verificar_existencia_de_arquivo)
+    pdf_conversor_to_pdf_ocr_seof = PdfConversorToPdfOcrSeof()
+    processar_dados_bruto_seof = ProcessarDadosBrutos(ler_dados_seof, pdf_conversor_to_pdf_ocr_seof, criar_output_path_to_pdf_ocr_seof, verificar_existencia_de_arquivo)
     sanitiza_pi_seof = SanitizarPiSeof()
     dicionarizar_indices_seof = DicionarizarIndicesPiSeof(utils)
     pegar_indices_seof = PegarIndicesPiSeof()

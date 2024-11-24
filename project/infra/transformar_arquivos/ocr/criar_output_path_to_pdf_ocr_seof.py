@@ -2,16 +2,15 @@ from project.use_cases.interfaces.transformar_arquivos.criar_output_path import 
 from adobe.pdfservices.operation.io.stream_asset import StreamAsset
 from project.errors.types.file_not_found import FileNotFound
 
-class CriarOutputPathToExcel(CriarOutputPathInterface):
+class CriarOutputPathToPdfOcrSeof(CriarOutputPathInterface):
     def execute(self, output_file_path: str, stream_asset: StreamAsset):
         """ execute the criar output path """
-        excel_path = f"{output_file_path}"
+        pdf_ocr_path = f"{output_file_path}"  
         try:
-            with open(excel_path, "wb") as file:
+            with open(pdf_ocr_path, "wb") as file:
                 file.write(stream_asset.get_input_stream())
-            return excel_path
+            return pdf_ocr_path
         except Exception as e:
             if isinstance(e, FileNotFoundError):
-                raise FileNotFound("Arquivo EXCEL criado não foi encontrado")
-            return e
-
+                raise FileNotFound("Arquivo PDF OCR criado do SEOF não foi encontrado.")
+            return e 

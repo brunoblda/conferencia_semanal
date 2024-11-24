@@ -18,17 +18,19 @@ from adobe.pdfservices.operation.pdfjobs.params.ocr_pdf.ocr_supported_locale imp
 from adobe.pdfservices.operation.pdfjobs.params.ocr_pdf.ocr_supported_type import OCRSupportedType
 from adobe.pdfservices.operation.pdfjobs.result.ocr_pdf_result import OCRPDFResult
 
-
-class PdfConversorToExcel(PdfConversorInterface):
-
+class PdfConversorToPdfOcrSeof(PdfConversorInterface):
+    
     def execute(self, credentials_env: dict, input_path: str):
-
+        """ execute the pdf conversor """
+        
         # Initialize the logger
         logging.basicConfig(level=logging.INFO)
 
+        # This sample illustrates how to perform an OCR operation on a PDF file and convert it into an searchable PDF file on
+        # the basis of provided locale and SEARCHABLE_IMAGE_EXACT ocr type to keep the original image
+        # (Recommended for cases requiring maximum fidelity to the original image.).
         #
-        # This sample illustrates how to export a PDF file to a Excel (XLSX) file. The OCR processing is also performed on
-        # the input PDF file to extract text from images in the document.
+        # Note that OCR operation on a PDF file results in a PDF file.
         #
         # Refer to README.md for instructions on how to run the samples.
         #
@@ -48,23 +50,25 @@ class PdfConversorToExcel(PdfConversorInterface):
             pdf_services = PDFServices(credentials=credentials)
 
             # Creates an asset(s) from source file(s) and upload
-            input_asset = pdf_services.upload(input_stream=input_stream, mime_type=PDFServicesMediaType.PDF)
+            input_asset = pdf_services.upload(input_stream=input_stream,
+                                            mime_type=PDFServicesMediaType.PDF)
 
-            # Create parameters for the job
-            export_pdf_params = ExportPDFParams(target_format=ExportPDFTargetFormat.XLSX, ocr_lang=ExportOCRLocale.PT_BR)
+            ocr_pdf_params = OCRParams(
+                ocr_locale=OCRSupportedLocale.PT_BR,
+                ocr_type=OCRSupportedType.SEARCHABLE_IMAGE
+            )
 
             # Creates a new job instance
-            export_pdf_job = ExportPDFJob(input_asset=input_asset, export_pdf_params=export_pdf_params)
+            ocr_pdf_job = OCRPDFJob(input_asset=input_asset, ocr_pdf_params=ocr_pdf_params)
 
             # Submit the job and gets the job result
-            location = pdf_services.submit(export_pdf_job)
-            pdf_services_response = pdf_services.get_job_result(location, ExportPDFResult)
+            location = pdf_services.submit(ocr_pdf_job)
+            pdf_services_response = pdf_services.get_job_result(location, OCRPDFResult)
 
             # Get content from the resulting asset(s)
             result_asset: CloudAsset = pdf_services_response.get_result().get_asset()
             stream_asset: StreamAsset = pdf_services.get_content(result_asset)
 
-            # Creates an output stream and copy stream asset's content to it
 
             return stream_asset
 
@@ -72,4 +76,4 @@ class PdfConversorToExcel(PdfConversorInterface):
             if isinstance(e, (ServiceApiException, ServiceUsageException, SdkException)):
                 logging.exception(f'Exception encountered while executing operation: {e}')
             if isinstance(e, FileNotFoundError):
-                raise FileNotFound("Arquivo não foi encontrado")
+                raise FileNotFound("Arquivo do SEOF não foi encontrado.")
