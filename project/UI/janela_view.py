@@ -20,7 +20,7 @@ class JanelaView(ctk.CTk):
         ctk.set_appearance_mode("Dark")  # Modos: "Light", "Dark", "System"
         ctk.set_default_color_theme("blue")  # Tema: "blue", "green", "dark-blue"
         self.title("Comparador de PIs")
-        self.geometry(self.CenterWindowToDisplay(600, 670))
+        self.geometry(self.CenterWindowToDisplay(600, 640))
         self.grid_columnconfigure(0, weight=1)
     
     def CenterWindowToDisplay(self, width: int, height: int, scale_factor: float = 1.0):
@@ -79,9 +79,7 @@ class JanelaView(ctk.CTk):
     def __label_data_da_conferencia(self):
         self.data_conferencia_label_text = ctk.CTkLabel(self, text="Data da Conferência:", font=('default', 20))
         self.data_conferencia_label_text.grid(row=14, column=0, pady=(20,0), columnspan=2, sticky='s')
-        self.data_conferencia_label_tips = ctk.CTkLabel(self, text="Formato DD-MM-AAAA", font=('default', 20))
-        self.data_conferencia_label_tips.grid(row=15, column=0, pady=(0,0), columnspan=2, sticky='n')
-        self.entry_data = ctk.CTkEntry(self, width=400, justify='center', font=('default', 20))
+        self.entry_data = ctk.CTkEntry(self, width=400, justify='center', font=('default', 20), placeholder_text="DD-MM-AAAA")
         self.entry_data.grid(row=16, column=0, pady=5, columnspan=2)
 
     def __button_comparar(self):
