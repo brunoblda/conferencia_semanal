@@ -38,11 +38,17 @@ class InitialConfigs:
         ''' Load JAVA_HOME environment variable '''
         java_base_path = "C:\\Program Files\\Java"
         jre_pattern = re.compile(r'jre.*')
+        jdk_pattern = re.compile(r'jdk.*')
         try:
             jre_dirs = [d for d in os.listdir(java_base_path) if jre_pattern.match(d)]
             if jre_dirs:
                 jre_path = os.path.join(java_base_path, jre_dirs[0], 'bin')
                 os.environ['PATH'] = jre_path
+            else:
+                jdk_dirs = [d for d in os.listdir(java_base_path) if jdk_pattern.match(d)]
+                if jdk_dirs:
+                    jdk_path = os.path.join(java_base_path, jdk_dirs[0], 'bin')
+                    os.environ['PATH'] = jdk_path 
         except FileNotFoundError:
             pass
 
