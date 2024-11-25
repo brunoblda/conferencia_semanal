@@ -36,21 +36,30 @@ class InitialConfigs:
 
     def __carregar_java_home(self) -> None:
         ''' Load JAVA_HOME environment variable '''
-        java_base_path = "C:\\Program Files\\Java"
+        java_base_paths = ["C:\\Program Files\\Java", "C:\\Program Files (x86)\\Java"]
         jre_pattern = re.compile(r'jre.*')
         jdk_pattern = re.compile(r'jdk.*')
-        try:
-            jre_dirs = [d for d in os.listdir(java_base_path) if jre_pattern.match(d)]
-            if jre_dirs:
-                jre_path = os.path.join(java_base_path, jre_dirs[0], 'bin')
-                os.environ['PATH'] = jre_path
-            else:
-                jdk_dirs = [d for d in os.listdir(java_base_path) if jdk_pattern.match(d)]
-                if jdk_dirs:
-                    jdk_path = os.path.join(java_base_path, jdk_dirs[0], 'bin')
-                    os.environ['PATH'] = jdk_path 
-        except FileNotFoundError:
-            pass
+
+        def find_java_path(base_path, pattern):
+            try:
+                dirs = [d for d in os.listdir(base_path) if pattern.match(d)]
+                if dirs:
+                    return os.path.join(base_path, dirs[0], 'bin')
+            except FileNotFoundError:
+                return None
+            return None
+
+        java_path = None
+        for base_path in java_base_paths:
+            java_path = find_java_path(base_path, jre_pattern)
+            if java_path:
+                break
+            java_path = find_java_path(base_path, jdk_pattern)
+            if java_path:
+                break
+
+        if java_path:
+            os.environ['PATH'] = java_path
 
     def execute(self) -> None:
         self.__carregar_java_home()
