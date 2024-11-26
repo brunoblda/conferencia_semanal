@@ -11,15 +11,15 @@ class DicionarizarIndices(DicionarizarIndicesInterface):
     """ Dicionaria os indices do PI """
     def execute(self, dict_indices: dict, plano_interno: pd.DataFrame) -> dict:
         """ Executa a dicionarização dos indices """
-        dict_resultado_plano_interno = {}
+        
+        pattern_plano_interno = r'^\d{2}(?:[A-Z]+|-[-A-Z]+(?: [A-Z]+)?)'
         pattern_desdobramento_elemento_despesa_codigo = r'^\d{2}\.\d{2}\.\d{2}'
-
-
+        dict_resultado_plano_interno = {}
 
         # para cada chave de plano interno
         for w in dict_indices:
 
-            nome_plano_interno = plano_interno[1][w].split(' ',1)[0]
+            nome_plano_interno = re.search(pattern_plano_interno, plano_interno[1][w]).group()
     
             dotacao_plano_interno = self.utils.value_hygienization(plano_interno[3][w])
 

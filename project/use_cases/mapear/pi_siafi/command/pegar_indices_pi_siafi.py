@@ -10,7 +10,7 @@ class PegarIndicesPiSiafi(PegarIndicesInterface):
 
         # patterns para encontrar os planos internos
 
-        pattern_plano_interno_column_result_siafi_dasf = r'(^\d{2}[-A-Z]{7,9})|(^-8)'
+        pattern_plano_interno_column_result_siafi_dasf = r'(^\d{2}([- A-Z]{7,9}))|(^-8)'
 
         # Extract and update column 1
 

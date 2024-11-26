@@ -9,7 +9,7 @@ class PegarIndicesPi(PegarIndicesInterface):
     
         # pattern para encontrar os planos interno "10-AIMOVEIS"
 
-        pattern_plano_interno = r'(^\d{2}[-A-Z])'
+        pattern_plano_interno = r'(^\d{2}(?:[A-Z]+|-[-A-Z]+(?: [A-Z]+)?))'
 
         extracted = plano_interno_df[1].str.extract(pattern_plano_interno)
         matched_rows_planos_internos = extracted.notna().any(axis=1)

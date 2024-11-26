@@ -7,7 +7,8 @@ class PegarIndicesPiSeof(PegarIndicesInterface):
     def execute(self, plano_interno_df: pd.DataFrame) -> dict:
         """ Executa a busca dos indices do PI SEOF """
         # pattern para encontrar os planos interno "10-AIMOVEIS"
-        pattern_plano_interno_seof = r'(^\d{2}[-A-Z])'
+
+        pattern_plano_interno_seof = r'(^\d{2}(?:[A-Z]+|-[-A-Z]+(?: [A-Z]+)?))'
 
         extracted = plano_interno_df[1].str.extract(pattern_plano_interno_seof)
         matched_rows_planos_internos_seof = extracted.notna().any(axis=1)

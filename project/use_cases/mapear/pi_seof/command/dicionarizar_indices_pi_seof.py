@@ -12,8 +12,8 @@ class DicionarizarIndicesPiSeof(DicionarizarIndicesInterface):
     def execute(self, dict_indices: dict, plano_interno: pd.DataFrame) -> dict:
         """ Executa a diciornarização dos indices do PI Seof """
 
+        pattern_plano_interno_seof = r'^\d{2}(?:[A-Z]+|-[-A-Z]+(?: [A-Z]+)?)'
         pattern_desdobramento_elemento_despesa_seof = r'^\d{2}.\d{2}.\d{2}' 
-
         dict_resultado_plano_interno_seof = {}
 
         for w in dict_indices:
@@ -21,7 +21,7 @@ class DicionarizarIndicesPiSeof(DicionarizarIndicesInterface):
             # ic.ic(dict_indices[w])
             # ic.ic(plano_interno[1][w])
 
-            nome_plano_interno_seof = plano_interno[1][w].split(' ',1)[0]
+            nome_plano_interno_seof = re.search(pattern_plano_interno_seof, plano_interno[1][w]).group()
     
             dotacao_plano_interno_seof = self.utils.value_hygienization(plano_interno[2][w])
     
