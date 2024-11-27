@@ -9,3 +9,11 @@ class Utils(ABC):
     def value_hygienization(self, string_for_hygienization: str) -> float:
         """ if the value is a float, replace ',' by '.' and remove spaces, else return 0 """
         raise NotImplementedError('Method not implemented')
+
+    def get_credentials(self) -> dict:
+        """ Get credentials from dict """
+        raise NotImplementedError('Method not implemented')
+
+    def trocar_virgulas_e_pontos(self, texto: str):
+        """ Change commas and dots """
+        raise NotImplementedError('Method not implemented')

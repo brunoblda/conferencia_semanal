@@ -64,7 +64,7 @@ def comparar_pi_seof_composer(request: dict) ->  ResponseFormat:
 
     plano_interno_seof_populado = popular_plano_interno_controller_seof.handle_request(credentials, input_file_path_secundario, output_file_path_pi_seof)
 
-    comparar_pi_seof = CompararPiSeof()
+    comparar_pi_seof = CompararPiSeof(utils)
 
     pdf_output = PdfOutput()
 

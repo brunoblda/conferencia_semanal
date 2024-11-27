@@ -63,7 +63,7 @@ def comparar_pi_siafi_composer(request: dict) -> ResponseFormat:
 
     plano_interno_siafi_populado = popular_plano_interno_controller_siafi.handle_request(credentials, input_file_path_secundario, output_file_path_pi_siafi)
 
-    comparar_pi_siafi = CompararPiSiafi()
+    comparar_pi_siafi = CompararPiSiafi(utils)
 
     pdf_output = PdfOutput()
 

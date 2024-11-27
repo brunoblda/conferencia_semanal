@@ -32,4 +32,10 @@ class Utils:
             'PDF_SERVICES_CLIENT_ID': os.getenv(client_key),
             'PDF_SERVICES_CLIENT_SECRET': os.getenv(secret_key)
         }
+
+    def trocar_virgulas_e_pontos(self, texto: str):
+        temp_texto = texto.replace(",", "#")
+        temp_texto = temp_texto.replace(".", ",")
+        texto_final = temp_texto.replace("#", ".")
+        return texto_final
     

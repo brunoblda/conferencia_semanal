@@ -1,9 +1,13 @@
 """ Module to compare PI with SEOF """
 from project.domain.interfaces.comparar.comparar_pis import CompararPis as CompararPisInterface
+from project.use_cases.interfaces.utilities.utils import Utils as UtilsInterface
 import pandas as pd
 
 class CompararPiSeof(CompararPisInterface):
     """ Compare PIs """
+
+    def __init__(self, utils: UtilsInterface):
+        self.utils = utils
 
     def execute(self, pi_principal: pd.DataFrame, pi_secundario: pd.DataFrame) -> str:
         """ Execute the comparison of the PI with the PI Seof """
@@ -25,7 +29,7 @@ class CompararPiSeof(CompararPisInterface):
             if n in pi_seof:
                 if pi[n]['valor'] != pi_seof[n]['valor']:
                     response += (
-                        f"|{n:^15}|{'':^17}|{pi[n]['valor']:^15,.2f}|{pi_seof[n]['valor']:^15,.2f}|{pi[n]['valor'] - pi_seof[n]['valor']:^17,.2f}|\n"
+                        f"|{n:^15}|{'':^17}|" + self.utils.trocar_virgulas_e_pontos(f"{pi[n]['valor']:^15,.2f}|{pi_seof[n]['valor']:^15,.2f}|{pi[n]['valor'] - pi_seof[n]['valor']:^17,.2f}|\n")
                     )
 
                 # para cada elemento de despesa no dicionario de elementos de despesa do plano interno
@@ -35,7 +39,7 @@ class CompararPiSeof(CompararPisInterface):
                     if m in pi_seof[n]['elementos de despesa']:
                         if pi[n]['elementos de despesa'][m]['valor'] != pi_seof[n]['elementos de despesa'][m]['valor']:
                             response += (
-                                f"|{n:^15}|{m:^17}|{pi[n]['elementos de despesa'][m]['valor']:^15,.2f}|{pi_seof[n]['elementos de despesa'][m]['valor']:^15,.2f}|{pi[n]['elementos de despesa'][m]['valor'] - pi_seof[n]['elementos de despesa'][m]['valor']:^17,.2f}|\n"
+                                f"|{n:^15}|{m:^17}|" + self.utils.trocar_virgulas_e_pontos(f"{pi[n]['elementos de despesa'][m]['valor']:^15,.2f}|{pi_seof[n]['elementos de despesa'][m]['valor']:^15,.2f}|{pi[n]['elementos de despesa'][m]['valor'] - pi_seof[n]['elementos de despesa'][m]['valor']:^17,.2f}|\n")
                             )
                 
                         # para cada desdobramento de despesa no dicionario de desdobramentos de despesa do elemento de despesa
@@ -45,22 +49,22 @@ class CompararPiSeof(CompararPisInterface):
                             if o in pi_seof[n]['elementos de despesa'][m]['desdobramentos de despesa']:
                                 if pi[n]['elementos de despesa'][m]['desdobramentos de despesa'][o]['valor'] != pi_seof[n]['elementos de despesa'][m]['desdobramentos de despesa'][o]['valor']:
                                     response += (
-                                        f"|{n: ^15}|{m+o[2:]:^17}|{pi[n]['elementos de despesa'][m]['desdobramentos de despesa'][o]['valor']:^15,.2f}|{pi_seof[n]['elementos de despesa'][m]['desdobramentos de despesa'][o]['valor']:^15,.2f}|{pi[n]['elementos de despesa'][m]['desdobramentos de despesa'][o]['valor'] - pi_seof[n]['elementos de despesa'][m]['desdobramentos de despesa'][o]['valor']:^17,.2f}|\n"
+                                        f"|{n: ^15}|{m+o[2:]:^17}|" + self.utils.trocar_virgulas_e_pontos(f"{pi[n]['elementos de despesa'][m]['desdobramentos de despesa'][o]['valor']:^15,.2f}|{pi_seof[n]['elementos de despesa'][m]['desdobramentos de despesa'][o]['valor']:^15,.2f}|{pi[n]['elementos de despesa'][m]['desdobramentos de despesa'][o]['valor'] - pi_seof[n]['elementos de despesa'][m]['desdobramentos de despesa'][o]['valor']:^17,.2f}|\n")
                                     )
                     
                             # se o desdobramento de despesa não estiver no dicionario de desdobramentos de despesa do elemento de despesa do plano interno        
                             else:
                                 response += (
-                                    f"|{n:^15}|{m+o[2:]:^17}|{pi[n]['elementos de despesa'][m]['desdobramentos de despesa'][o]['valor']:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n"
+                                    f"|{n:^15}|{m+o[2:]:^17}|" + self.utils.trocar_virgulas_e_pontos(f"{pi[n]['elementos de despesa'][m]['desdobramentos de despesa'][o]['valor']:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n")
                                 )
 
                     # se o elemento de despesa não estiver no dicionario de elementos de despesa do plano interno do seof            
                     else:
                         response += (
-                            f"|{n:^15}|{m:^17}|{pi[n]['elementos de despesa'][m]['valor']:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n"
+                            f"|{n:^15}|{m:^17}|" + self.utils.trocar_virgulas_e_pontos(f"{pi[n]['elementos de despesa'][m]['valor']:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n")
                         )
             # se o plano interno não estiver no dicionario de planos internos do seof            
             else:
-                response += (f"|{n:^15}|{'':^17}|{pi[n]['valor']:^15}|{'':^15}|{'Não encontrado':^17}|\n")
+                response += (f"|{n:^15}|{'':^17}|" + self.utils.trocar_virgulas_e_pontos(f"{pi[n]['valor']:^15}|{'':^15}|{'Não encontrado':^17}|\n"))
 
         return response
