@@ -72,4 +72,5 @@ class PdfConversorToExcelSiafi(PdfConversorInterface):
             if isinstance(e, (ServiceApiException, ServiceUsageException, SdkException)):
                 logging.exception(f'Exception encountered while executing operation: {e}')
             if isinstance(e, FileNotFoundError):
-                raise FileNotFound("Arquivo do SIAFI não foi encontrado.")
+                raise FileNotFound("Arquivo do SIAFI não foi encontrado.") 
+            raise e

@@ -1,5 +1,6 @@
 
 class ValorDataError(Exception):
     def __init__(self, message: str) -> None:
+        super().__init__(message)
         self.message = message
-        super().__init__(self.message)
+        

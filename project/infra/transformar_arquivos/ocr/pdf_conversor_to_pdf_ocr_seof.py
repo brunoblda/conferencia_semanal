@@ -77,3 +77,4 @@ class PdfConversorToPdfOcrSeof(PdfConversorInterface):
                 logging.exception(f'Exception encountered while executing operation: {e}')
             if isinstance(e, FileNotFoundError):
                 raise FileNotFound("Arquivo do SEOF não foi encontrado.")
+            raise e

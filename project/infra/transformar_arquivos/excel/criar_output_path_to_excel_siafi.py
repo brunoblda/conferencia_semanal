@@ -13,5 +13,5 @@ class CriarOutputPathToExcelSiafi(CriarOutputPathInterface):
         except Exception as e:
             if isinstance(e, FileNotFoundError):
                 raise FileNotFound("Arquivo EXCEL criado do SIAFI não foi encontrado.")
-            return e
+            raise e
 

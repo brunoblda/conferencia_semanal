@@ -13,4 +13,4 @@ class CriarOutputPathToPdfOcrSeof(CriarOutputPathInterface):
         except Exception as e:
             if isinstance(e, FileNotFoundError):
                 raise FileNotFound("Arquivo PDF OCR criado do SEOF não foi encontrado.")
-            return e 
+            raise e 

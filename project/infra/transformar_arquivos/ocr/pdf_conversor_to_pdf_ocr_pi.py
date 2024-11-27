@@ -77,3 +77,4 @@ class PdfConversorToPdfOcrPi(PdfConversorInterface):
                 logging.exception(f'Exception encountered while executing operation: {e}')
             if isinstance(e, FileNotFoundError):
                 raise FileNotFound("Arquivo do PI não foi encontrado.")
+            raise e
