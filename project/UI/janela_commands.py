@@ -30,16 +30,19 @@ class JanelaCommands:
         input_file_path_principal = self.janela_view.entry_plano_interno.get()
         input_file_path_secundario = self.janela_view.entry_seof.get()
         data_da_conferencia = self.janela_view.entry_data.get()
-        self.controller.on_compare_seof(input_file_path_principal, input_file_path_secundario, data_da_conferencia)
+        self.controller.on_compare_seof(input_file_path_principal, 
+        input_file_path_secundario, data_da_conferencia)
 
     def on_compare_siafi(self):
         input_file_path_principal = self.janela_view.entry_plano_interno.get()
         input_file_path_secundario = self.janela_view.entry_siafi.get()
         data_da_conferencia = self.janela_view.entry_data.get()
-        self.controller.on_compare_siafi(input_file_path_principal, input_file_path_secundario, data_da_conferencia)
+        self.controller.on_compare_siafi(input_file_path_principal, 
+        input_file_path_secundario, data_da_conferencia)
 
     def select_file_plano_interno(self):
-        file_path = filedialog.askopenfilename(title="Selecione o Arquivo do Plano Interno")
+        file_path = filedialog.askopenfilename(
+            title="Selecione o Arquivo do Plano Interno")
         if file_path:
             self.janela_view.entry_plano_interno.delete(0, ctk.END)
             self.janela_view.entry_plano_interno.insert(0, file_path)

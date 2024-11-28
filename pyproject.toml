@@ -20,9 +20,42 @@ customtkinter = "^5.2.2"
 pyinstaller = "^6.11.0"
 taskipy = "^1.14.0"
 ignr = "^2.2"
+black = "^24.10.0"
+pylint = "^3.3.1"
+ruff = "^0.8.0"
+flake8 = "^7.1.1"
+flake8-pyproject = "^1.2.3"
 
 [tool.taskipy.tasks]
 build = "pyinstaller --name conferencia_semanal --windowed --onefile  main.py --add-data certificados.pem:. --add-data .env:. --add-data .venv/Lib/site-packages/tabula/tabula-1.0.5-jar-with-dependencies.jar:tabula"
+black = "black ."
+pylint = "pylint project && pylint main.py"
+ruff_lint = "ruff check . && ruff check . --diff"
+ruff_format = "ruff check . --fix && ruff format ."
+flake8 = "flake8 --config=pyproject.toml project && flake8 --config=pyproject.toml main.py"
+
+[tool.black]
+line-length = 89
+
+[tool.ruff]
+line-length = 89
+extend-exclude = ['migrations']
+
+[tool.ruff.lint]
+preview = true
+select = ['I', 'F', 'E', 'W', 'PL', 'PT']
+
+[tool.ruff.format]
+preview = true
+quote-style = 'single'
+
+[tool.flake8]
+max-line-length = 89
+count = true
+per-file-ignores = "__init__.py:F401"
+
+[tool.pylint]
+max-line-length = 89
 
 [build-system]
 requires = ["poetry-core"]

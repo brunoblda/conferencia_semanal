@@ -1,12 +1,16 @@
-from project.domain.interfaces.mapear.command.sanitizar_pi import SanitizarPi as SanitizarPiInterface
-from project.domain.interfaces.plano_interno import PlanoInterno as PlanoInternoInterface
-from project.errors.types.sanitize_error import SanitizeError
 import pandas as pd
 
+from project.domain.interfaces.mapear.command.sanitizar_pi import (
+    SanitizarPi as SanitizarPiInterface,
+)
+from project.errors.types.sanitize_error import SanitizeError
+
+
 class SanitizarPiSeof(SanitizarPiInterface):
-    """ Sanitiza o PI Seof"""
-    def execute(self, plano_interno: pd.DataFrame|list[str]) -> pd.DataFrame:
-        """ Executa a higienização do PI """
+    """Sanitiza o PI Seof"""
+
+    def execute(self, plano_interno: pd.DataFrame | list[str]) -> pd.DataFrame:
+        """Executa a higienização do PI"""
 
         try:
             # cada pagina é uma lista, o concat junta todas as listas em um dataframe
@@ -14,17 +18,25 @@ class SanitizarPiSeof(SanitizarPiInterface):
 
             column_headers = list(seof_pi_df)
 
-            seof_pi_df = seof_pi_df.rename(columns={column_headers[0]:1,column_headers[1] :2, column_headers[2]: 3 })
+            seof_pi_df = seof_pi_df.rename(
+                columns={
+                    column_headers[0]: 1,
+                    column_headers[1]: 2,
+                    column_headers[2]: 3,
+                }
+            )
 
             seof_pi_df[4] = seof_pi_df[2].combine_first(seof_pi_df[3])
 
-            seof_pi_df = seof_pi_df.drop([2,3], axis=1)
+            seof_pi_df = seof_pi_df.drop([2, 3], axis=1)
 
             column_headers = list(seof_pi_df)
 
-            seof_pi_df = seof_pi_df.rename(columns={column_headers[0]:1,column_headers[1] :2})
+            seof_pi_df = seof_pi_df.rename(
+                columns={column_headers[0]: 1, column_headers[1]: 2}
+            )
 
             return seof_pi_df
 
-        except Exception as e:
-                raise SanitizeError("Erro ao sanitizar o PI Seof")
+        except Exception:
+            raise SanitizeError("Erro ao sanitizar o PI Seof")

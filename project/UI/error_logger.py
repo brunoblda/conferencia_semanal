@@ -1,6 +1,7 @@
 import logging
 import sys
 
+
 class ErrorLogger:
 
     def run(self):
@@ -17,7 +18,9 @@ class ErrorLogger:
         fh.setLevel(logging.ERROR)
 
         # Criar um formatador e adicioná-lo ao manipulador
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter(
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        )
         fh.setFormatter(formatter)
 
         # Adicionar o manipulador ao logger
@@ -28,4 +31,6 @@ class ErrorLogger:
         if issubclass(exc_type, KeyboardInterrupt):
             sys.__excepthook__(exc_type, exc_value, exc_traceback)
             return
-        logging.getLogger().error("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
+        logging.getLogger().error(
+            "Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback)
+        )
