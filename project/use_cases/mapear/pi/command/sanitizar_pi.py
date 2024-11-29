@@ -22,4 +22,4 @@ class SanitizarPi(SanitizarPiInterface):
             return pi_df
 
         except Exception:
-            raise SanitizeError("Erro ao sanitizar o PI")
+            raise SanitizeError("Erro, arquivo PI incompatível.")

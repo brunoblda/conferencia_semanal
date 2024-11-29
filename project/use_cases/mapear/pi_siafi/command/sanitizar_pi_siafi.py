@@ -39,4 +39,4 @@ class SanitizarPiSiafi(SanitizarPiInterface):
 
             return siafi_pi_dasf_df
         except Exception:
-            raise SanitizeError("Erro ao sanitizar o PI Siafi")
+            raise SanitizeError("Erro, arquivo SIAFI incompatível")

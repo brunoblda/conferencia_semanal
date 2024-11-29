@@ -39,4 +39,4 @@ class SanitizarPiSeof(SanitizarPiInterface):
             return seof_pi_df
 
         except Exception:
-            raise SanitizeError("Erro ao sanitizar o PI Seof")
+            raise SanitizeError("Erro, arquivo SEOF incompatível.")
