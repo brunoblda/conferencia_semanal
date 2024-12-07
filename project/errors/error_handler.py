@@ -7,6 +7,6 @@ from project.errors.types.valor_data_error import ValorDataError
 def handle_error(error: Exception) -> ResponseFormat:
     """Handle error"""
     if isinstance(error, (ValorDataError, FileNotFound, SanitizeError)):
-        return ResponseFormat(error.message, dict())
+        return ResponseFormat("error", error.message, dict())
     else:
-        return ResponseFormat("Erro interno", {"error": error.args})
+        return ResponseFormat("error", "Erro interno", {"error": error.args})

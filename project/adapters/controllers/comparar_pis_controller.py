@@ -32,6 +32,7 @@ class CompararPisController(CompararPisControllerInterface):
         self.__pdf_output.write_pdf(comparacao_planos_internos, pdf_output_name)
 
         return ResponseFormat(
+            status="success",
             message="Comparação realizada com sucesso!",
             body={"data": comparacao_planos_internos},
         )
