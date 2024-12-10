@@ -7,15 +7,28 @@ from project.domain.interfaces.comparar.comparar_pis import (
 )
 from project.use_cases.interfaces.utilities.utils import Utils as UtilsInterface
 
+from project.services.types.response_data_comparar_pis import ResponseData
+
 
 class CompararPiSiafi(CompararPisInterface):
     """Compare PIs"""
 
     def __init__(self, utils: UtilsInterface):
         self.utils = utils
+        self.status = "sem erro"
 
-    def execute(self, pi_principal: pd.DataFrame, pi_secundário: pd.DataFrame) -> str:
+    def get_status(self) -> str:
+        """Get the status of the comparison"""
+        return self.status
+
+    def update_status(self, status: str) -> None:
+        """Update the status of the comparison"""
+        self.status = status
+
+    def execute(self, pi_principal: pd.DataFrame, pi_secundário: pd.DataFrame) -> ResponseData:
         """Execute the comparison of the PI with the PI Siafi"""
+
+        update_status_com_erro = "com erro"
 
         pi = pi_principal
         pi_siafi = pi_secundário
@@ -34,6 +47,7 @@ class CompararPiSiafi(CompararPisInterface):
             # se o plano interno estiver no dicionario de planos internos do siafi
             if n in pi_siafi:
                 if pi[n]["valor"] != pi_siafi[n]["valor"]:
+                    self.update_status(update_status_com_erro)
                     response += f"|{n:^15}|{'':^17}|" + self.utils.trocar_virgulas_e_pontos(
                         f"{pi[n]['valor']:^15,.2f}|{pi_siafi[n]['valor']:^15,.2f}|{pi[n]['valor'] - pi_siafi[n]['valor']:^17,.2f}|\n"
                     )
@@ -47,6 +61,7 @@ class CompararPiSiafi(CompararPisInterface):
                             pi[n]["elementos de despesa"][m]["valor"]
                             != pi_siafi[n]["elementos de despesa"][m]["valor"]
                         ):
+                            self.update_status(update_status_com_erro)
                             response += (
                                 f"|{n:^15}|{m:^17}|"
                                 + self.utils.trocar_virgulas_e_pontos(
@@ -56,14 +71,18 @@ class CompararPiSiafi(CompararPisInterface):
 
                     # se o elemento de despesa não estiver no dicionario de elementos de despesa do plano interno do siafi
                     else:
+                        self.update_status(update_status_com_erro)
                         response += f"|{n:^15}|{m:^17}|" + self.utils.trocar_virgulas_e_pontos(
                             f"{pi[n]['elementos de despesa'][m]['valor']:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n"
                         )
 
             # se o plano interno não estiver no dicionario de planos internos do siafi
             else:
+                self.update_status(update_status_com_erro)
                 response += f"|{n:^15}|{'':^17}|" + self.utils.trocar_virgulas_e_pontos(
                     f"{pi[n]['valor']:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n"
                 )
+                
+        data: ResponseData = {"response": response, "status": self.get_status()}
 
-        return response
+        return data

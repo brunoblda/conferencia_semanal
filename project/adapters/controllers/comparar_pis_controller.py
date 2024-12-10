@@ -6,6 +6,7 @@ from project.domain.interfaces.comparar.comparar_pis import (
     CompararPis as CompararPisInterface,
 )
 from project.use_cases.interfaces.pdf_output import PdfOutput as PdfOutputInterface
+from project.services.types.response_data_comparar_pis import ResponseData
 
 
 class CompararPisController(CompararPisControllerInterface):
@@ -26,13 +27,13 @@ class CompararPisController(CompararPisControllerInterface):
     ) -> str:
         """Handle the request"""
 
-        comparacao_planos_internos = self.__comparar_pis.execute(
+        comparacao_planos_internos: ResponseData = self.__comparar_pis.execute(
             plano_interno_principal, plano_interno_secundario
         )
         self.__pdf_output.write_pdf(comparacao_planos_internos, pdf_output_name)
 
         return ResponseFormat(
-            status="success",
-            message="Comparação realizada com sucesso!",
-            body={"data": comparacao_planos_internos},
+            status=f"success - {comparacao_planos_internos['status']}",
+            message= f"Comparação realizada com sucesso! {comparacao_planos_internos['status']}",
+            body=comparacao_planos_internos,
         )

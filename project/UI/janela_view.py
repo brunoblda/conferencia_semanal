@@ -140,7 +140,7 @@ class JanelaView(ctk.CTk):
 
     def __response_message(self):
         self.response_message = ctk.CTkLabel(
-            self, text="", font=("default", 20), text_color="yellow"
+            self, text="", font=("default", 20), text_color="orange"
         )
         self.response_message.grid(row=20, column=0, pady=(20, 0), columnspan=2)
 
@@ -186,11 +186,13 @@ class JanelaView(ctk.CTk):
     def handle_compare_result(self, result: ResponseFormat):
         self.close_pop_up_loading()
         if result.status == "error":
-            self.response_message.configure(text=result.message, text_color="red")
-        elif result.status == "success":
-            self.response_message.configure(text=result.message, text_color="green")
-        else:
             self.response_message.configure(text=result.message, text_color="yellow")
+        elif result.status == "success - sem erro":
+            self.response_message.configure(text=result.message, text_color="green")
+        elif result.status == "success - com erro":
+            self.response_message.configure(text=result.message, text_color="red")
+        else:
+            self.response_message.configure(text=result.message, text_color="orange")
 
     def select_file_plano_interno(self):
         file_path = filedialog.askopenfilename(

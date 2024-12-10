@@ -10,6 +10,12 @@ __pycache__/
 # C extensions
 *.so
 
+excel/
+*.xlsx
+pdf_ocr/
+*.pdf
+jre1.8.0_421/
+
 # Distribution / packaging
 .Python
 build/
