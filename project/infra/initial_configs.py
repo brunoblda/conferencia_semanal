@@ -76,8 +76,8 @@ class InitialConfigs:
         extDataDir = os.getcwd()
         if getattr(sys, "frozen", False):
             extDataDir = sys._MEIPASS
-        java_local_path = os.path.join(extDataDir, "jre1.8.0_421")
-        os.environ["JAVA_HOME"] = java_local_path
+        java_local_path = os.path.join(extDataDir, "jre1.8.0_421","bin")
+        os.environ["PATH"] = java_local_path
         
 
     def execute(self) -> None:
