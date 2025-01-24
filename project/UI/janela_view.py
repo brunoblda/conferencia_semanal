@@ -15,7 +15,7 @@ class JanelaView(ctk.CTk):
         self.__controller = controller
         self.__setup_janela()
         self.__view_janela()
-        self.protocol("WM_DELETE_WINDOW", self.on_closing)
+        self.protocol("WM_DELETE_WINDOW", self.__on_closing)
         self.pop_up_loading = None
 
     def __setup_janela(self):
@@ -23,10 +23,13 @@ class JanelaView(ctk.CTk):
         ctk.set_appearance_mode("Dark")  # Modos: "Light", "Dark", "System"
         ctk.set_default_color_theme("blue")  # Tema: "blue", "green", "dark-blue"
         self.title("Comparador de PIs")
-        self.geometry(self.CenterWindowToDisplay(600, 640))
-        self.grid_columnconfigure(0, weight=1)
+        self.geometry(self.__CenterWindowToDisplay(640, 720))
+        self.grid_columnconfigure((0, 1), weight=1)
+        self.grid_rowconfigure(21, weight=1)
 
-    def CenterWindowToDisplay(self, width: int, height: int, scale_factor: float = 1.0):
+    def __CenterWindowToDisplay(
+        self, width: int, height: int, scale_factor: float = 1.0
+    ):
         """Centers the window to the main display/monitor"""
         screen_width = self.winfo_screenwidth()
         screen_height = self.winfo_screenheight()
@@ -42,59 +45,60 @@ class JanelaView(ctk.CTk):
         self.__label_data_da_conferencia()
         self.__button_comparar()
         self.__response_message()
+        self.__show_app_version()
 
     def __radio_button_seof_siafi(self):
         self.radio_var = ctk.IntVar(value=0)
         self.radio_button_pi_seof = ctk.CTkRadioButton(
             self,
             text="Comparar PI X SEOF",
-            font=("default", 20),
+            font=("default", 22),
             variable=self.radio_var,
             command=self.__on_radio_button,
             value=1,
         )
         self.radio_button_pi_seof.grid(
-            row=1, column=0, padx=(70, 0), pady=20, sticky="w"
+            row=1, column=0, padx=(50, 26), pady=30, sticky="e"
         )
         self.radio_button_pi_siafi = ctk.CTkRadioButton(
             self,
             text="Comparar PI X SIAFI",
-            font=("default", 20),
+            font=("default", 22),
             variable=self.radio_var,
             command=self.__on_radio_button,
             value=2,
         )
         self.radio_button_pi_siafi.grid(
-            row=1, column=1, padx=(0, 70), pady=20, sticky="e"
+            row=1, column=1, padx=(26, 50), pady=30, sticky="w"
         )
 
     def __label_plano_interno(self):
         self.plano_interno_label_text = ctk.CTkLabel(
-            self, text="Caminho do Arquivo do Plano Interno:", font=("default", 20)
+            self, text="Caminho do Arquivo do Plano Interno:", font=("default", 22)
         )
-        self.plano_interno_label_text.grid(row=2, column=0, pady=(0, 0), columnspan=2)
+        self.plano_interno_label_text.grid(row=2, column=0, pady=(5, 0), columnspan=2)
         self.entry_plano_interno = ctk.CTkEntry(self, width=400, font=("default", 20))
         self.entry_plano_interno.grid(row=3, column=0, pady=5, columnspan=2)
         self.plano_interno_select_button = ctk.CTkButton(
             self,
             text="Selecionar Arquivo",
-            font=("default", 20),
-            command=self.select_file_plano_interno,
+            font=("default", 22),
+            command=self.__select_file_plano_interno,
         )
         self.plano_interno_select_button.grid(row=4, column=0, pady=5, columnspan=2)
 
     def __label_seof(self):
         self.seof_label_text = ctk.CTkLabel(
-            self, text="Caminho do Arquivo do SEOF:", font=("default", 20)
+            self, text="Caminho do Arquivo do SEOF:", font=("default", 22)
         )
-        self.seof_label_text.grid(row=6, column=0, pady=(20, 0), columnspan=2)
-        self.entry_seof = ctk.CTkEntry(self, width=400, font=("default", 20))
+        self.seof_label_text.grid(row=6, column=0, pady=(24, 0), columnspan=2)
+        self.entry_seof = ctk.CTkEntry(self, width=400, font=("default", 22))
         self.entry_seof.grid(row=7, column=0, pady=5, columnspan=2)
         self.seof_button = ctk.CTkButton(
             self,
             text="Selecionar Arquivo",
-            font=("default", 20),
-            command=self.select_file_seof,
+            font=("default", 22),
+            command=self.__select_file_seof,
         )
         self.seof_button.grid(row=8, column=0, pady=5, columnspan=2)
         if self.radio_var.get() == 2:
@@ -103,46 +107,57 @@ class JanelaView(ctk.CTk):
 
     def __label_siafi(self):
         self.siafi_label_text = ctk.CTkLabel(
-            self, text="Caminho do Arquivo do SIAFI:", font=("default", 20)
+            self, text="Caminho do Arquivo do SIAFI:", font=("default", 22)
         )
-        self.siafi_label_text.grid(row=10, column=0, pady=(20, 0), columnspan=2)
-        self.entry_siafi = ctk.CTkEntry(self, width=400, font=("default", 20))
+        self.siafi_label_text.grid(row=10, column=0, pady=(24, 0), columnspan=2)
+        self.entry_siafi = ctk.CTkEntry(self, width=400, font=("default", 22))
         self.entry_siafi.grid(row=11, column=0, pady=5, columnspan=2)
         self.siafi_button = ctk.CTkButton(
             self,
             text="Selecionar Arquivo",
-            font=("default", 20),
-            command=self.select_file_siafi,
+            font=("default", 22),
+            command=self.__select_file_siafi,
         )
         self.siafi_button.grid(row=12, column=0, pady=5, columnspan=2)
 
     def __label_data_da_conferencia(self):
         self.data_conferencia_label_text = ctk.CTkLabel(
-            self, text="Data da Conferência:", font=("default", 20)
+            self, text="Data da Conferência:", font=("default", 22)
         )
         self.data_conferencia_label_text.grid(
-            row=14, column=0, pady=(20, 0), columnspan=2, sticky="s"
+            row=14, column=0, pady=(24, 0), columnspan=2, sticky="s"
         )
         self.entry_data = ctk.CTkEntry(
             self,
             width=400,
             justify="center",
-            font=("default", 20),
+            font=("default", 22),
             placeholder_text="DD-MM-AAAA",
         )
-        self.entry_data.grid(row=16, column=0, pady=5, columnspan=2)
+        self.entry_data.grid(row=16, column=0, pady=10, columnspan=2)
 
     def __button_comparar(self):
         self.comparar_button = ctk.CTkButton(
-            self, text="Comparar", font=("default", 20), command=self.on_compare
+            self,
+            text="Comparar",
+            fg_color="green",
+            hover_color="darkgreen",
+            font=("default", 22),
+            command=self.__on_compare,
         )
         self.comparar_button.grid(row=18, column=0, pady=(20, 0), columnspan=2)
 
     def __response_message(self):
         self.response_message = ctk.CTkLabel(
-            self, text="", font=("default", 20), text_color="orange"
+            self, text="", font=("default", 22), text_color="orange"
         )
-        self.response_message.grid(row=20, column=0, pady=(20, 0), columnspan=2)
+        self.response_message.grid(row=20, column=0, pady=(24, 0), columnspan=2)
+
+    def __show_app_version(self):
+        self.app_version = ctk.CTkLabel(
+            self, text="Versão 1.29.0", font=("default", 10), text_color="white"
+        )
+        self.app_version.grid(row=21, column=0, pady=(20, 0), columnspan=2, sticky="s")
 
     def __on_radio_button(self):
         estado_seof = "normal"
@@ -158,14 +173,14 @@ class JanelaView(ctk.CTk):
         self.seof_button.configure(state=estado_seof)
         self.entry_seof.configure(state=estado_seof)
 
-    def on_compare(self):
+    def __on_compare(self):
         if self.radio_var.get() == 0:
             self.response_message.configure(
                 text="Por favor, selecione o tipo de comparação"
             )
         else:
             self.__controller.criar_pastas()
-            self.open_pop_up_loading(
+            self.__open_pop_up_loading(
                 "Comparador de PIs", "Carregando, por favor aguarde..."
             )
             if self.radio_var.get() == 1:
@@ -173,18 +188,18 @@ class JanelaView(ctk.CTk):
                     self.entry_plano_interno.get(),
                     self.entry_seof.get(),
                     self.entry_data.get(),
-                    self.handle_compare_result,
+                    self.__handle_compare_result,
                 )
             elif self.radio_var.get() == 2:
                 self.__controller.on_compare_siafi(
                     self.entry_plano_interno.get(),
                     self.entry_siafi.get(),
                     self.entry_data.get(),
-                    self.handle_compare_result,
+                    self.__handle_compare_result,
                 )
 
-    def handle_compare_result(self, result: ResponseFormat):
-        self.close_pop_up_loading()
+    def __handle_compare_result(self, result: ResponseFormat):
+        self.__close_pop_up_loading()
         if result.status == "error":
             self.response_message.configure(text=result.message, text_color="yellow")
         elif result.status == "success - sem erro":
@@ -194,7 +209,7 @@ class JanelaView(ctk.CTk):
         else:
             self.response_message.configure(text=result.message, text_color="orange")
 
-    def select_file_plano_interno(self):
+    def __select_file_plano_interno(self):
         file_path = filedialog.askopenfilename(
             title="Selecione o Arquivo do Plano Interno"
         )
@@ -202,19 +217,19 @@ class JanelaView(ctk.CTk):
             self.entry_plano_interno.delete(0, ctk.END)
             self.entry_plano_interno.insert(0, file_path)
 
-    def select_file_seof(self):
+    def __select_file_seof(self):
         file_path = filedialog.askopenfilename(title="Selecione o Arquivo do SEOF")
         if file_path:
             self.entry_seof.delete(0, ctk.END)
             self.entry_seof.insert(0, file_path)
 
-    def select_file_siafi(self):
+    def __select_file_siafi(self):
         file_path = filedialog.askopenfilename(title="Selecione o Arquivo do SIAFI")
         if file_path:
             self.entry_siafi.delete(0, ctk.END)
             self.entry_siafi.insert(0, file_path)
 
-    def open_pop_up_loading(self, title, mensagem: str):
+    def __open_pop_up_loading(self, title, mensagem: str):
         self.response_message.configure(text="")
         if self.pop_up_loading is None or not self.pop_up_loading.winfo_exists():
             self.pop_up_loading = PopUpLoading(
@@ -225,23 +240,23 @@ class JanelaView(ctk.CTk):
         else:
             self.pop_up_loading.focus()  # if window exists focus it
             self.pop_up_loading.attributes("-topmost", True)
-        self.disable_widget()
+        self.__disable_widget()
 
-    def close_pop_up_loading(self):
+    def __close_pop_up_loading(self):
         if self.pop_up_loading is not None and self.pop_up_loading.winfo_exists():
             self.pop_up_loading.destroy()
             self.pop_up_loading = None
-        self.enable_widget()
+        self.__enable_widget()
 
-    def on_closing(self):
+    def __on_closing(self):
         self.destroy()
         sys.exit()
 
-    def disable_widget(self):
+    def __disable_widget(self):
         for widget in self.winfo_children():
             widget.configure(state="disabled")
 
-    def enable_widget(self):
+    def __enable_widget(self):
         for widget in self.winfo_children():
             widget.configure(state="normal")
         self.__on_radio_button()
