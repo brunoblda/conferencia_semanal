@@ -9,6 +9,7 @@ from project.UI.pop_up_loading import PopUpLoading
 
 
 class JanelaView(ctk.CTk):
+    """Classe para a janela principal da aplicação"""
 
     def __init__(self, controller: ControllerApp) -> None:
         super().__init__()
@@ -30,6 +31,7 @@ class JanelaView(ctk.CTk):
     def __CenterWindowToDisplay(
         self, width: int, height: int, scale_factor: float = 1.0
     ):
+
         """Centers the window to the main display/monitor"""
         screen_width = self.winfo_screenwidth()
         screen_height = self.winfo_screenheight()
@@ -38,6 +40,7 @@ class JanelaView(ctk.CTk):
         return f"{width}x{height}+{x}+{y}"
 
     def __view_janela(self):
+        """Cria os widgets da janela principal."""
         self.__radio_button_seof_siafi()
         self.__label_plano_interno()
         self.__label_seof()
@@ -48,6 +51,7 @@ class JanelaView(ctk.CTk):
         self.__show_app_version()
 
     def __radio_button_seof_siafi(self):
+        """Cria os radio buttons para escolher entre comparar PI X SEOF ou PI X SIAFI."""
         self.radio_var = ctk.IntVar(value=0)
         self.radio_button_pi_seof = ctk.CTkRadioButton(
             self,
@@ -73,6 +77,7 @@ class JanelaView(ctk.CTk):
         )
 
     def __label_plano_interno(self):
+        """Cria os labels e entrys para o caminho do arquivo do Plano Interno."""
         self.plano_interno_label_text = ctk.CTkLabel(
             self, text="Caminho do Arquivo do Plano Interno:", font=("default", 22)
         )
@@ -88,6 +93,7 @@ class JanelaView(ctk.CTk):
         self.plano_interno_select_button.grid(row=4, column=0, pady=5, columnspan=2)
 
     def __label_seof(self):
+        """Cria os labels e entrys para o caminho do arquivo do SEOF."""
         self.seof_label_text = ctk.CTkLabel(
             self, text="Caminho do Arquivo do SEOF:", font=("default", 22)
         )
@@ -106,6 +112,7 @@ class JanelaView(ctk.CTk):
             self.seof_button.configure(state="disabled")
 
     def __label_siafi(self):
+        """Cria os labels e entrys para o caminho do arquivo do SIAFI."""
         self.siafi_label_text = ctk.CTkLabel(
             self, text="Caminho do Arquivo do SIAFI:", font=("default", 22)
         )
@@ -121,6 +128,7 @@ class JanelaView(ctk.CTk):
         self.siafi_button.grid(row=12, column=0, pady=5, columnspan=2)
 
     def __label_data_da_conferencia(self):
+        """Cria os labels e entrys para a data da conferência."""
         self.data_conferencia_label_text = ctk.CTkLabel(
             self, text="Data da Conferência:", font=("default", 22)
         )
@@ -137,6 +145,7 @@ class JanelaView(ctk.CTk):
         self.entry_data.grid(row=16, column=0, pady=10, columnspan=2)
 
     def __button_comparar(self):
+        """Cria o botão para comparar os arquivos."""
         self.comparar_button = ctk.CTkButton(
             self,
             text="Comparar",
@@ -148,18 +157,21 @@ class JanelaView(ctk.CTk):
         self.comparar_button.grid(row=18, column=0, pady=(20, 0), columnspan=2)
 
     def __response_message(self):
+        """Cria o label para exibir a mensagem de resposta."""
         self.response_message = ctk.CTkLabel(
             self, text="", font=("default", 22), text_color="orange"
         )
         self.response_message.grid(row=20, column=0, pady=(24, 0), columnspan=2)
 
     def __show_app_version(self):
+        """Cria o label para exibir a versão da aplicação."""
         self.app_version = ctk.CTkLabel(
-            self, text="Versão 1.29.0", font=("default", 10), text_color="white"
+            self, text="Versão 1.30.0", font=("default", 10), text_color="white"
         )
         self.app_version.grid(row=21, column=0, pady=(20, 0), columnspan=2, sticky="s")
 
     def __on_radio_button(self):
+        """Desabilita os campos de entrada de acordo com o radio button selecionado."""
         estado_seof = "normal"
         estado_siafi = "normal"
 
@@ -174,6 +186,7 @@ class JanelaView(ctk.CTk):
         self.entry_seof.configure(state=estado_seof)
 
     def __on_compare(self):
+        """Função para comparar os arquivos."""
         if self.radio_var.get() == 0:
             self.response_message.configure(
                 text="Por favor, selecione o tipo de comparação"
@@ -199,6 +212,7 @@ class JanelaView(ctk.CTk):
                 )
 
     def __handle_compare_result(self, result: ResponseFormat):
+        """Função para lidar com o resultado da comparação."""
         self.__close_pop_up_loading()
         if result.status == "error":
             self.response_message.configure(text=result.message, text_color="yellow")
@@ -210,6 +224,7 @@ class JanelaView(ctk.CTk):
             self.response_message.configure(text=result.message, text_color="orange")
 
     def __select_file_plano_interno(self):
+        """Função para selecionar o arquivo do Plano Interno."""
         file_path = filedialog.askopenfilename(
             title="Selecione o Arquivo do Plano Interno"
         )
@@ -218,18 +233,21 @@ class JanelaView(ctk.CTk):
             self.entry_plano_interno.insert(0, file_path)
 
     def __select_file_seof(self):
+        """Função para selecionar o arquivo do SEOF."""
         file_path = filedialog.askopenfilename(title="Selecione o Arquivo do SEOF")
         if file_path:
             self.entry_seof.delete(0, ctk.END)
             self.entry_seof.insert(0, file_path)
 
     def __select_file_siafi(self):
+        """Função para selecionar o arquivo do SIAFI."""
         file_path = filedialog.askopenfilename(title="Selecione o Arquivo do SIAFI")
         if file_path:
             self.entry_siafi.delete(0, ctk.END)
             self.entry_siafi.insert(0, file_path)
 
     def __open_pop_up_loading(self, title, mensagem: str):
+        """Função para abrir a janela de loading."""
         self.response_message.configure(text="")
         if self.pop_up_loading is None or not self.pop_up_loading.winfo_exists():
             self.pop_up_loading = PopUpLoading(
@@ -243,20 +261,24 @@ class JanelaView(ctk.CTk):
         self.__disable_widget()
 
     def __close_pop_up_loading(self):
+        """Função para fechar a janela de loading."""
         if self.pop_up_loading is not None and self.pop_up_loading.winfo_exists():
             self.pop_up_loading.destroy()
             self.pop_up_loading = None
         self.__enable_widget()
 
     def __on_closing(self):
+        """Função para fechar a aplicação."""
         self.destroy()
         sys.exit()
 
     def __disable_widget(self):
+        """Função para desabilitar os widgets da janela principal."""
         for widget in self.winfo_children():
             widget.configure(state="disabled")
 
     def __enable_widget(self):
+        """Função para habilitar os widgets da janela principal."""
         for widget in self.winfo_children():
             widget.configure(state="normal")
         self.__on_radio_button()
