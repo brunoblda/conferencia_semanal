@@ -5,9 +5,8 @@ import pandas as pd
 from project.domain.interfaces.comparar.comparar_pis import (
     CompararPis as CompararPisInterface,
 )
-from project.use_cases.interfaces.utilities.utils import Utils as UtilsInterface
-
 from project.services.types.response_data_comparar_pis import ResponseData
+from project.use_cases.interfaces.utilities.utils import Utils as UtilsInterface
 
 
 class CompararPiSiafi(CompararPisInterface):
@@ -25,7 +24,9 @@ class CompararPiSiafi(CompararPisInterface):
         """Update the status of the comparison"""
         self.status = status
 
-    def execute(self, pi_principal: pd.DataFrame, pi_secundário: pd.DataFrame) -> ResponseData:
+    def execute(
+        self, pi_principal: pd.DataFrame, pi_secundário: pd.DataFrame
+    ) -> ResponseData:
         """Execute the comparison of the PI with the PI Siafi"""
 
         update_status_com_erro = "com erro"
@@ -82,7 +83,7 @@ class CompararPiSiafi(CompararPisInterface):
                 response += f"|{n:^15}|{'':^17}|" + self.utils.trocar_virgulas_e_pontos(
                     f"{pi[n]['valor']:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n"
                 )
-                
+
         data: ResponseData = {"response": response, "status": self.get_status()}
 
         return data

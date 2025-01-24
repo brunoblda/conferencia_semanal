@@ -5,8 +5,8 @@ import pandas as pd
 from project.domain.interfaces.comparar.comparar_pis import (
     CompararPis as CompararPisInterface,
 )
-from project.use_cases.interfaces.utilities.utils import Utils as UtilsInterface
 from project.services.types.response_data_comparar_pis import ResponseData
+from project.use_cases.interfaces.utilities.utils import Utils as UtilsInterface
 
 
 class CompararPiSeof(CompararPisInterface):
@@ -15,16 +15,18 @@ class CompararPiSeof(CompararPisInterface):
     def __init__(self, utils: UtilsInterface):
         self.utils = utils
         self.status = "sem erro"
-    
+
     def get_status(self) -> str:
         """Get the status of the comparison"""
         return self.status
-    
+
     def update_status(self, status: str) -> None:
         """Update the status of the comparison"""
         self.status = status
 
-    def execute(self, pi_principal: pd.DataFrame, pi_secundario: pd.DataFrame) -> ResponseData:
+    def execute(
+        self, pi_principal: pd.DataFrame, pi_secundario: pd.DataFrame
+    ) -> ResponseData:
         """Execute the comparison of the PI with the PI Seof"""
 
         update_status_com_erro = "com erro"
@@ -120,4 +122,4 @@ class CompararPiSeof(CompararPisInterface):
 
         data: ResponseData = {"response": response, "status": self.get_status()}
 
-        return data 
+        return data

@@ -54,7 +54,7 @@ class InitialConfigs:
             try:
                 dirs = [d for d in os.listdir(base_path) if pattern.match(d)]
                 if dirs:
-                    return os.path.join(base_path, dirs[0], "bin")
+                    return os.path.join(base_path, dirs[0])
             except FileNotFoundError:
                 return None
             return None
@@ -69,19 +69,22 @@ class InitialConfigs:
                 break
 
         if java_path:
-            os.environ["PATH"] = java_path
-    
+            os.environ["JAVA_HOME"] = java_path
+            os.environ["PATH"] = os.path.join(java_path, "bin")
+
     def __carregar_local_java_home(self) -> None:
         """Load JAVA_HOME environment variable"""
         extDataDir = os.getcwd()
         if getattr(sys, "frozen", False):
             extDataDir = sys._MEIPASS
-        java_local_path = os.path.join(extDataDir, "jre1.8.0_421","bin")
+        java_local_path = os.path.join(extDataDir, "jre1.8.0_421", "bin")
         os.environ["PATH"] = java_local_path
-        
+        java_home_path = os.path.join(extDataDir, "jre1.8.0_421")
+        os.environ["JAVA_HOME"] = java_home_path
 
     def execute(self) -> None:
         self.__carregar_local_java_home()
+        # self.__carregar_java_home()
         self.__tabula_configuracao_inicial()
         self.__carregar_variaveis_de_ambiente()
         self.__carregar_certificados_digitais()

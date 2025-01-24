@@ -5,8 +5,8 @@ from project.adapters.presenters.response_format import ResponseFormat
 from project.domain.interfaces.comparar.comparar_pis import (
     CompararPis as CompararPisInterface,
 )
-from project.use_cases.interfaces.pdf_output import PdfOutput as PdfOutputInterface
 from project.services.types.response_data_comparar_pis import ResponseData
+from project.use_cases.interfaces.pdf_output import PdfOutput as PdfOutputInterface
 
 
 class CompararPisController(CompararPisControllerInterface):
@@ -34,6 +34,6 @@ class CompararPisController(CompararPisControllerInterface):
 
         return ResponseFormat(
             status=f"success - {comparacao_planos_internos['status']}",
-            message= f"Comparação realizada com sucesso! {comparacao_planos_internos['status']}",
+            message=f"Comparação realizada com sucesso! {comparacao_planos_internos['status']}",
             body=comparacao_planos_internos,
         )

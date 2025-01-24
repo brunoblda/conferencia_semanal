@@ -1,7 +1,7 @@
 from fpdf import FPDF
 
-from project.use_cases.interfaces.pdf_output import PdfOutput as PdfOutputInterface
 from project.services.types.response_data_comparar_pis import ResponseData
+from project.use_cases.interfaces.pdf_output import PdfOutput as PdfOutputInterface
 
 
 class PdfOutput(PdfOutputInterface):
@@ -12,5 +12,5 @@ class PdfOutput(PdfOutputInterface):
         """write data to a file"""
         self.pdf.add_page()
         self.pdf.set_font(family="Courier", size=10)
-        self.pdf.multi_cell(0, 10, data['response'])
+        self.pdf.multi_cell(0, 10, data["response"])
         self.pdf.output(f"{output_name}_{data['status']}.pdf", "F")

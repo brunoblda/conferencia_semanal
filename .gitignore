@@ -10,6 +10,9 @@ __pycache__/
 # C extensions
 *.so
 
+# verificação do java utilizado
+tabula_environment_info.txt
+
 excel/
 *.xlsx
 pdf_ocr/

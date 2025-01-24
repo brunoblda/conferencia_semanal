@@ -12,7 +12,7 @@ class CompararPis(ABC):
     def get_status(self) -> str:
         """Get the status of the comparison"""
         raise NotImplementedError("Method not implemented")
-    
+
     @abstractmethod
     def update_status(self, status: str) -> None:
         """Update the status of the comparison"""

@@ -8,7 +8,7 @@ class Utils(ABC):
         raise NotImplementedError("Method not implemented")
 
     def value_hygienization(self, string_for_hygienization: str) -> float:
-        """if the value is a float, replace ',' by '.' and remove spaces, 
+        """if the value is a float, replace ',' by '.' and remove spaces,
         else return 0"""
         raise NotImplementedError("Method not implemented")
 

@@ -13,6 +13,11 @@ class LerDadosPi(LerDadosInterface):
     def execute(self, output_path):
         """execute the ler dados"""
 
+        java_version = f"{tabula.util.java_version()}"
+
+        with open("tabula_environment_info.txt", "w") as file:
+            file.write(java_version)
+
         pi_list = tabula.read_pdf(
             output_path, pages="all", guess=False, pandas_options={"header": None}
         )
