@@ -1,6 +1,6 @@
 """ Class for the LerDadosSiafi use case """
 
-import pandas as pd
+import tabula
 
 from project.use_cases.interfaces.pegar_dados_processados.ler_dados import (
     LerDados as LerDadosInterface,
@@ -13,6 +13,6 @@ class LerDadosSiafi(LerDadosInterface):
     def execute(self, output_path):
         """execute the ler dados"""
 
-        siafi_dasf_df = pd.read_excel(output_path, engine="openpyxl")
+        siafi_dasf_df = tabula.read_pdf(output_path, pages="all", guess=False)
 
         return siafi_dasf_df

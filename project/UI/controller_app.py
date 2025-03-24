@@ -2,6 +2,7 @@ import logging
 import os
 import signal
 import threading
+from datetime import date
 
 from project.errors.error_handler import handle_error
 from project.infra.criar_pastas import CriarPastas
@@ -9,7 +10,6 @@ from project.infra.initial_configs import InitialConfigs
 from project.main.adapters.comparar_pi_request_adapter import comparar_pi_request_adapter
 from project.main.composer.comparar_pi_seof_composer import comparar_pi_seof_composer
 from project.main.composer.comparar_pi_siafi_composer import comparar_pi_siafi_composer
-from project.validators.conferencia_data_validator import conferencia_data_validator
 
 
 class ControllerApp:
@@ -31,8 +31,6 @@ class ControllerApp:
         result = None
         try:
             if not self._stop_event.is_set():
-                data_da_conferencia = args[-1]
-                conferencia_data_validator(data_da_conferencia)
                 result = target(*args)
         except Exception as e:
             logging.getLogger().error("Exception in thread", exc_info=True)
@@ -40,6 +38,12 @@ class ControllerApp:
         finally:
             if callback:
                 callback(result)
+                
+    def calculate_data_conferencia(self):
+        """ Calcula a data da conferência. """
+        today = date.today()
+        today_str = today.strftime("%d/%m/%Y")
+        return today_str
 
     def __comparar_pi_seof(
         self, input_file_path_principal, input_file_path_secundario, data_da_conferencia

@@ -20,12 +20,12 @@ class PopularPlanoInterno(PopularPlanoInternoInterface):
         self.__plano_interno = plano_interno
 
     def execute(
-        self, credentials: dict, input_file_path: str, output_file_name: str
+        self, input_file_path: str, output_file_name: str
     ) -> PlanoInternoInterface:
 
         self.__plano_interno.set(
             self.__processar_dados_bruto.execute(
-                credentials, input_file_path, output_file_name
+                input_file_path
             )
         )
         self.__plano_interno.set_dict(

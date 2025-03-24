@@ -13,11 +13,11 @@ class PopularPlanoInternoController(PopularPlanoInternoControllerInterface):
         self.__popular_plano_interno = popular_plano_interno
 
     def handle_request(
-        self, credentials: dict, input_file_path: str, output_file_name: str
+        self, input_file_path: str, output_file_name: str
     ) -> PlanoInternoInterface:
 
         plano_interno_populado = self.__popular_plano_interno.execute(
-            credentials, input_file_path, output_file_name
+            input_file_path, output_file_name
         )
 
         return plano_interno_populado

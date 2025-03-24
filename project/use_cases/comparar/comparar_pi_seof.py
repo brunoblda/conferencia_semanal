@@ -48,7 +48,7 @@ class CompararPiSeof(CompararPisInterface):
             if n in pi_seof:
                 if pi[n]["valor"] != pi_seof[n]["valor"]:
                     self.update_status(update_status_com_erro)
-                    response += f"|{n:^15}|{'':^17}|" + self.utils.trocar_virgulas_e_pontos(
+                    response += f"|{n:^15}|{'':^17}|" + self.utils.replace_commas_and_dots(
                         f"{pi[n]['valor']:^15,.2f}|{pi_seof[n]['valor']:^15,.2f}|{pi[n]['valor'] - pi_seof[n]['valor']:^17,.2f}|\n"
                     )
 
@@ -64,7 +64,7 @@ class CompararPiSeof(CompararPisInterface):
                             self.update_status(update_status_com_erro)
                             response += (
                                 f"|{n:^15}|{m:^17}|"
-                                + self.utils.trocar_virgulas_e_pontos(
+                                + self.utils.replace_commas_and_dots(
                                     f"{pi[n]['elementos de despesa'][m]['valor']:^15,.2f}|{pi_seof[n]['elementos de despesa'][m]['valor']:^15,.2f}|{pi[n]['elementos de despesa'][m]['valor'] - pi_seof[n]['elementos de despesa'][m]['valor']:^17,.2f}|\n"
                                 )
                             )
@@ -92,7 +92,7 @@ class CompararPiSeof(CompararPisInterface):
                                     self.update_status(update_status_com_erro)
                                     response += (
                                         f"|{n: ^15}|{m + o[2:]:^17}|"
-                                        + self.utils.trocar_virgulas_e_pontos(
+                                        + self.utils.replace_commas_and_dots(
                                             f"{pi[n]['elementos de despesa'][m]['desdobramentos de despesa'][o]['valor']:^15,.2f}|{pi_seof[n]['elementos de despesa'][m]['desdobramentos de despesa'][o]['valor']:^15,.2f}|{pi[n]['elementos de despesa'][m]['desdobramentos de despesa'][o]['valor'] - pi_seof[n]['elementos de despesa'][m]['desdobramentos de despesa'][o]['valor']:^17,.2f}|\n"
                                         )
                                     )
@@ -102,7 +102,7 @@ class CompararPiSeof(CompararPisInterface):
                                 self.update_status(update_status_com_erro)
                                 response += (
                                     f"|{n:^15}|{m + o[2:]:^17}|"
-                                    + self.utils.trocar_virgulas_e_pontos(
+                                    + self.utils.replace_commas_and_dots(
                                         f"{pi[n]['elementos de despesa'][m]['desdobramentos de despesa'][o]['valor']:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n"
                                     )
                                 )
@@ -110,13 +110,13 @@ class CompararPiSeof(CompararPisInterface):
                     # se o elemento de despesa não estiver no dicionario de elementos de despesa do plano interno do seof
                     else:
                         self.update_status(update_status_com_erro)
-                        response += f"|{n:^15}|{m:^17}|" + self.utils.trocar_virgulas_e_pontos(
+                        response += f"|{n:^15}|{m:^17}|" + self.utils.replace_commas_and_dots(
                             f"{pi[n]['elementos de despesa'][m]['valor']:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n"
                         )
             # se o plano interno não estiver no dicionario de planos internos do seof
             else:
                 self.update_status(update_status_com_erro)
-                response += f"|{n:^15}|{'':^17}|" + self.utils.trocar_virgulas_e_pontos(
+                response += f"|{n:^15}|{'':^17}|" + self.utils.replace_commas_and_dots(
                     f"{pi[n]['valor']:^15}|{'':^15}|{'Não encontrado':^17}|\n"
                 )
 

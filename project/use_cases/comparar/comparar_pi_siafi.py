@@ -49,7 +49,7 @@ class CompararPiSiafi(CompararPisInterface):
             if n in pi_siafi:
                 if pi[n]["valor"] != pi_siafi[n]["valor"]:
                     self.update_status(update_status_com_erro)
-                    response += f"|{n:^15}|{'':^17}|" + self.utils.trocar_virgulas_e_pontos(
+                    response += f"|{n:^15}|{'':^17}|" + self.utils.replace_commas_and_dots(
                         f"{pi[n]['valor']:^15,.2f}|{pi_siafi[n]['valor']:^15,.2f}|{pi[n]['valor'] - pi_siafi[n]['valor']:^17,.2f}|\n"
                     )
 
@@ -65,7 +65,7 @@ class CompararPiSiafi(CompararPisInterface):
                             self.update_status(update_status_com_erro)
                             response += (
                                 f"|{n:^15}|{m:^17}|"
-                                + self.utils.trocar_virgulas_e_pontos(
+                                + self.utils.replace_commas_and_dots(
                                     f"{pi[n]['elementos de despesa'][m]['valor']:^15,.2f}|{pi_siafi[n]['elementos de despesa'][m]['valor']:^15,.2f}|{pi[n]['elementos de despesa'][m]['valor'] - pi_siafi[n]['elementos de despesa'][m]['valor']:^17,.2f}|\n"
                                 )
                             )
@@ -73,14 +73,14 @@ class CompararPiSiafi(CompararPisInterface):
                     # se o elemento de despesa não estiver no dicionario de elementos de despesa do plano interno do siafi
                     else:
                         self.update_status(update_status_com_erro)
-                        response += f"|{n:^15}|{m:^17}|" + self.utils.trocar_virgulas_e_pontos(
+                        response += f"|{n:^15}|{m:^17}|" + self.utils.replace_commas_and_dots(
                             f"{pi[n]['elementos de despesa'][m]['valor']:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n"
                         )
 
             # se o plano interno não estiver no dicionario de planos internos do siafi
             else:
                 self.update_status(update_status_com_erro)
-                response += f"|{n:^15}|{'':^17}|" + self.utils.trocar_virgulas_e_pontos(
+                response += f"|{n:^15}|{'':^17}|" + self.utils.replace_commas_and_dots(
                     f"{pi[n]['valor']:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n"
                 )
 

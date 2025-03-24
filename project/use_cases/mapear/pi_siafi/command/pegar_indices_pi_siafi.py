@@ -1,119 +1,125 @@
 import pandas as pd
 
+import re
+
 from project.domain.interfaces.mapear.command.pegar_indices import (
     PegarIndices as PegarIndicesInterface,
 )
 
+from project.use_cases.interfaces.utilities.utils import Utils as UtilsInterface
 
 class PegarIndicesPiSiafi(PegarIndicesInterface):
     """Pega os indices do PI Siafi"""
 
-    def execute(self, plano_interno_df: pd.DataFrame) -> dict:
+    def __init__(self, utils: UtilsInterface):
+        self.utils = utils
+
+    def execute(self, plano_interno: pd.DataFrame) -> dict:
         """Executa a busca dos indices do PI Siafi"""
 
+        siafi_pi_df_original = pd.concat(plano_interno, ignore_index=True)
+
+        siafi_pi_df = siafi_pi_df_original.copy()
+
+        columns_names_siafi_pi_list = siafi_pi_df.columns.to_list()
+
+        siafi_pi_df = siafi_pi_df.drop([columns_names_siafi_pi_list[0]], axis=1)
+
+        columns_names_siafi_pi_list.pop(0)
+
         # patterns para encontrar os planos internos
+        pattern_plano_interno_column_result_siafi = r'(((?:^|\s)\d{2}[-A-Z]{7,9}(?:\s|$))|((?:^|\s)-8(?:\s|$)))'
 
-        pattern_plano_interno_column_result_siafi_dasf = r"(^\d{2}([- A-Z]{7,9}))|(^-8)"
+        extracted_list = []
 
-        # Extract and update column 1
+        siafi_pi_df = siafi_pi_df.astype(str)
 
-        extracted = plano_interno_df[1].str.extract(
-            pattern_plano_interno_column_result_siafi_dasf
-        )
-        matched_rows_planos_internos_column_1_siafi_dasf = extracted.notna().any(axis=1)
+        for i in columns_names_siafi_pi_list:
+            extracted = siafi_pi_df[i].str.extract(pattern_plano_interno_column_result_siafi)
+            extracted_list.append(extracted)
 
-        # matched_rows_planos_internos_column_1_siafi_dasf =
-        # plano_interno_df[1].str.contains(
-        # pattern_plano_interno_column_result_siafi_dasf).fillna(False)
+        matched_rows_planos_internos_siafi_list = [extracted.notna().any(axis=1) for extracted in extracted_list]
+    
+        matched_rows_planos_internos_siafi_df = pd.concat(matched_rows_planos_internos_siafi_list, axis=1)    
 
-        indices_planos_internos_siafi_dasf = plano_interno_df[
-            matched_rows_planos_internos_column_1_siafi_dasf
-        ].index
+        matched_rows_planos_internos_siafi_df.columns = columns_names_siafi_pi_list
+
+        tuple_list_indices_planos_internos_siafi= self.utils.get_row_and_column(matched_rows_planos_internos_siafi_df)
 
         # patterns para encontrar os elementos de despesas
 
-        pattern_elemento_de_despesa_siafi_dasf = r"^\d{6}"
+        pattern_elemento_de_despesa_siafi = r'(^\d{6})'
 
-        pattern_total_siafi_dasf = r"^Total"
+        pattetn_total = r'(^Total)'
 
-        matched_rows_elementos_de_despesa_siafi_dasf = (
-            plano_interno_df[2]
-            .str.match(pattern_elemento_de_despesa_siafi_dasf)
-            .fillna(False)
-        )
+        extracted_list = []
 
-        indices_elementos_de_despesa_siafi_dasf = plano_interno_df[
-            matched_rows_elementos_de_despesa_siafi_dasf
-        ].index
+        for i in columns_names_siafi_pi_list:
+            extracted = siafi_pi_df[i].str.extract(pattern_elemento_de_despesa_siafi)
+            extracted_list.append(extracted)
 
-        matched_rows_elementos_de_despesa_total_siafi_dasf = (
-            plano_interno_df[2].str.match(pattern_total_siafi_dasf).fillna(False)
-        )
+        matched_rows_elementos_de_despesa_siafi_list = [extracted.notna().any(axis=1) for extracted in extracted_list]
 
-        indices_elementos_de_despesa_total_siafi_dasf = plano_interno_df[
-            matched_rows_elementos_de_despesa_total_siafi_dasf
-        ].index
+        matched_rows_elementos_de_despesa_siafi_df = pd.concat(matched_rows_elementos_de_despesa_siafi_list, axis=1)
 
-        # ic.ic(indices_planos_internos_siafi_dasf)
-        # ic.ic(indices_elementos_de_despesa_siafi_dasf)
-        # ic.ic(indices_elementos_de_despesa_total_siafi_dasf)
+        matched_rows_elementos_de_despesa_siafi_df.columns = columns_names_siafi_pi_list
+
+        tuple_list_indices_elementos_de_despesa_siafi = self.utils.get_row_and_column(matched_rows_elementos_de_despesa_siafi_df)
+
+        extracted_list = []
+
+        for i in columns_names_siafi_pi_list:
+            extracted = siafi_pi_df[i].str.extract(pattetn_total)
+            extracted_list.append(extracted)
+
+        matched_rows_total_siafi_list = [extracted.notna().any(axis=1) for extracted in extracted_list]
+
+        matched_rows_total_siafi_df = pd.concat(matched_rows_total_siafi_list, axis=1)
+
+        matched_rows_total_siafi_df.columns = columns_names_siafi_pi_list
+
+        tuple_list_indices_total_siafi = self.utils.get_row_and_column(matched_rows_total_siafi_df)
 
         list_planos_verified = []
 
-        dict_planos_internos_siafi_dasf = {}
+        dict_planos_internos_siafi = {}
 
         aux_count_indice = 0
 
-        list_indices_planos_internos_siafi_dasf = (
-            indices_planos_internos_siafi_dasf.to_list()
-        )
-        list_indices_elementos_de_despesa_siafi_dasf = (
-            indices_elementos_de_despesa_siafi_dasf.to_list()
-        )
-        list_indices_elementos_de_despesa_total_siafi_dasf = (
-            indices_elementos_de_despesa_total_siafi_dasf.to_list()
-        )
-
         # para cada indice na lista de indices de planos internos
-        for i in list_indices_planos_internos_siafi_dasf:
+        for i in tuple_list_indices_planos_internos_siafi:
 
-            # verifica se o plano interno ja foi verificado, pois as vezes o mesmo
-            # plano interno aparece mais de uma vez por conta de quebra de pagina
+            matched_plano_interno = re.search(pattern_plano_interno_column_result_siafi ,siafi_pi_df[i[1]][i[0]])
+            if matched_plano_interno:
+                # if matched_plano_interno.group() != '-8' and matched_plano_interno.group() in list_planos_verified:
+                if  ('-8' not in matched_plano_interno.group()) and matched_plano_interno.group() in list_planos_verified:
 
-            # o -8 deve ser ignorado, pois o continue eh somente para pegar os planos
-            # internos
+                    continue
 
-            if (
-                plano_interno_df[1][i] != "-8"
-                and plano_interno_df[1][i] in list_planos_verified
-            ):
-                continue
-            dict_planos_internos_siafi_dasf[i] = []
-
+            dict_planos_internos_siafi[i[0]] = {'column': i[1], 'totais': []}
+    
             # para cada indice de elementos de despesa total
-            for j in list_indices_elementos_de_despesa_total_siafi_dasf:
-                list_j = {j: []}
-                dict_planos_internos_siafi_dasf[i].append(list_j)
+            for j in tuple_list_indices_total_siafi:
+                list_j = {j[0]:{'column': j[1], 'elementos de despesa': []}}
+                dict_planos_internos_siafi[i[0]]['totais'].append(list_j)
 
                 # para cada indice da lista de indices de elementos de despesa siafi - de 0 até o final da lista
-                for k in range(
-                    aux_count_indice, len(list_indices_elementos_de_despesa_siafi_dasf)
-                ):
-
+                for k in range(aux_count_indice, len(tuple_list_indices_elementos_de_despesa_siafi)):
+            
                     # se o indice do elemento de despesa for maior que o indice de total, break
-                    if list_indices_elementos_de_despesa_siafi_dasf[k] > j:
+                    if tuple_list_indices_elementos_de_despesa_siafi[k][0] > j[0]:
                         break
-                    dict_planos_internos_siafi_dasf[i][0][j].append(
-                        list_indices_elementos_de_despesa_siafi_dasf[k]
-                    )
-
+                    elemento_de_depesa_siafi = {tuple_list_indices_elementos_de_despesa_siafi[k][0]: {'column': tuple_list_indices_elementos_de_despesa_siafi[k][1]}}
+                    dict_planos_internos_siafi[i[0]]['totais'][0][j[0]]['elementos de despesa'].append(elemento_de_depesa_siafi)
+            
                     # a proxima contagem de k começara pelo proximo item, mesmo quando passar para o loop de j, o valor não é reiniciado
                     aux_count_indice += 1
-
-                # remove o valor de j, para nao contar no proximo loop
-                list_indices_elementos_de_despesa_total_siafi_dasf.remove(j)
+            
+                # remove o valor de j, para nao contar no proximo loop    
+                tuple_list_indices_total_siafi.remove(j)
                 break
 
-            list_planos_verified.append(plano_interno_df[1][i])
+            if matched_plano_interno:
+                list_planos_verified.append(matched_plano_interno.group())
 
-        return dict_planos_internos_siafi_dasf
+        return dict_planos_internos_siafi

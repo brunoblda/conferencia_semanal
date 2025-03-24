@@ -133,16 +133,16 @@ class JanelaView(ctk.CTk):
             self, text="Data da Conferência:", font=("default", 22)
         )
         self.data_conferencia_label_text.grid(
-            row=14, column=0, pady=(24, 0), columnspan=2, sticky="s"
+            row=14, column=0, pady=(22, 0), columnspan=2, sticky="s"
         )
-        self.entry_data = ctk.CTkEntry(
-            self,
-            width=400,
-            justify="center",
-            font=("default", 22),
-            placeholder_text="DD-MM-AAAA",
+        self.data_conferencia_label_data= ctk.CTkLabel(
+            self, text="", font=("default", 22)
         )
-        self.entry_data.grid(row=16, column=0, pady=10, columnspan=2)
+        self.data_conferencia_label_data.grid(
+            row=15, column=0, pady=(22, 0), columnspan=2, sticky="s"
+        )
+        
+        self.__on_label_data_conferencia()
 
     def __button_comparar(self):
         """Cria o botão para comparar os arquivos."""
@@ -166,7 +166,7 @@ class JanelaView(ctk.CTk):
     def __show_app_version(self):
         """Cria o label para exibir a versão da aplicação."""
         self.app_version = ctk.CTkLabel(
-            self, text="Versão 1.30.0", font=("default", 10), text_color="white"
+            self, text="Versão 2.0.0", font=("default", 10), text_color="white"
         )
         self.app_version.grid(row=21, column=0, pady=(20, 0), columnspan=2, sticky="s")
 
@@ -200,14 +200,14 @@ class JanelaView(ctk.CTk):
                 self.__controller.on_compare_seof(
                     self.entry_plano_interno.get(),
                     self.entry_seof.get(),
-                    self.entry_data.get(),
+                    self.data_conferencia_label_data.cget("text"),
                     self.__handle_compare_result,
                 )
             elif self.radio_var.get() == 2:
                 self.__controller.on_compare_siafi(
                     self.entry_plano_interno.get(),
                     self.entry_siafi.get(),
-                    self.entry_data.get(),
+                    self.data_conferencia_label_data.cget("text"),
                     self.__handle_compare_result,
                 )
 
@@ -223,6 +223,10 @@ class JanelaView(ctk.CTk):
         else:
             self.response_message.configure(text=result.message, text_color="orange")
 
+    def __on_label_data_conferencia(self):
+        """ Função para inserir a data da conferência."""
+        self.data_conferencia_label_data.configure(text=self.__controller.calculate_data_conferencia())
+    
     def __select_file_plano_interno(self):
         """Função para selecionar o arquivo do Plano Interno."""
         file_path = filedialog.askopenfilename(
