@@ -35,10 +35,13 @@ class DicionarizarIndices(DicionarizarIndicesInterface):
             # calcula o valor da dotação para cada coluna da linha e caso encontre ele se torna o valor da dotação do plano interno
             dotacao_plano_interno = 0
             for o in columns_names_pi_list:
+                if plano_interno_df[o][w] == '-':
+                    dotacao_plano_interno = 0
+                else:
     
-                dotacao_plano_interno_por_coluna = self.utils.value_hygienization(plano_interno_df[o][w])
-                if dotacao_plano_interno_por_coluna:
-                    dotacao_plano_interno = dotacao_plano_interno_por_coluna
+                    dotacao_plano_interno_por_coluna = self.utils.value_hygienization(plano_interno_df[o][w])
+                    if dotacao_plano_interno_por_coluna:
+                        dotacao_plano_interno = dotacao_plano_interno_por_coluna
 
             dict_resultado_plano_interno[nome_plano_interno] = {'indice': w, 'valor': dotacao_plano_interno, 'elementos de despesa': {}}
 
@@ -65,11 +68,14 @@ class DicionarizarIndices(DicionarizarIndicesInterface):
                     # calcula o valor da dotação para cada coluna da linha e caso encontre ele se torna o valor da dotação do plano interno
                     dotacao_elemento_despesa = 0
                     for o in columns_names_pi_list:
+
+                        if plano_interno_df[o][y] == '-':
+                            dotacao_elemento_despesa = 0
+                        else:
+                            dotacao_elemento_despesa_por_coluna = self.utils.value_hygienization(plano_interno_df[o][y])
                 
-                        dotacao_elemento_despesa_por_coluna = self.utils.value_hygienization(plano_interno_df[o][y])
-                
-                        if dotacao_elemento_despesa_por_coluna:
-                            dotacao_elemento_despesa = dotacao_elemento_despesa_por_coluna
+                            if dotacao_elemento_despesa_por_coluna:
+                                dotacao_elemento_despesa = dotacao_elemento_despesa_por_coluna
 
                     dict_resultado_plano_interno[nome_plano_interno]['elementos de despesa'][nome_elemento_despesa] = {'indice': y, 'valor': dotacao_elemento_despesa, 'desdobramentos de despesa': {}}
             
@@ -84,9 +90,12 @@ class DicionarizarIndices(DicionarizarIndicesInterface):
                             # calcula o valor da dotação para cada coluna da linha e caso encontre ele se torna o valor da dotação do plano interno
                             dotacao_desdobramento_despesa = 0
                             for o in columns_names_pi_list:
-                                dotacao_desdobramento_despesa_por_coluna = self.utils.value_hygienization(plano_interno_df[o][k])
-                                if dotacao_desdobramento_despesa_por_coluna:
-                                    dotacao_desdobramento_despesa = dotacao_desdobramento_despesa_por_coluna
+                                if plano_interno_df[o][k] == '-':
+                                    dotacao_desdobramento_despesa = 0
+                                else:
+                                    dotacao_desdobramento_despesa_por_coluna = self.utils.value_hygienization(plano_interno_df[o][k])
+                                    if dotacao_desdobramento_despesa_por_coluna:
+                                        dotacao_desdobramento_despesa = dotacao_desdobramento_despesa_por_coluna
                 
                             dict_resultado_plano_interno[nome_plano_interno]['elementos de despesa'][nome_elemento_despesa]['desdobramentos de despesa'][nome_desdobramento_despesa] = {'indice': k, 'valor': dotacao_desdobramento_despesa}
 
