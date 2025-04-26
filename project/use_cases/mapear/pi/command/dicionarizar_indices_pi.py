@@ -38,7 +38,6 @@ class DicionarizarIndices(DicionarizarIndicesInterface):
                 if plano_interno_df[o][w] == '-':
                     dotacao_plano_interno = 0
                 else:
-    
                     dotacao_plano_interno_por_coluna = self.utils.value_hygienization(plano_interno_df[o][w])
                     if dotacao_plano_interno_por_coluna:
                         dotacao_plano_interno = dotacao_plano_interno_por_coluna
@@ -73,7 +72,6 @@ class DicionarizarIndices(DicionarizarIndicesInterface):
                             dotacao_elemento_despesa = 0
                         else:
                             dotacao_elemento_despesa_por_coluna = self.utils.value_hygienization(plano_interno_df[o][y])
-                
                             if dotacao_elemento_despesa_por_coluna:
                                 dotacao_elemento_despesa = dotacao_elemento_despesa_por_coluna
 
