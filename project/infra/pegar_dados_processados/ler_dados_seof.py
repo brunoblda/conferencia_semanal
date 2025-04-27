@@ -13,6 +13,8 @@ class LerDadosSeof(LerDadosInterface):
     def execute(self, output_path):
         """execute the ler dados"""
 
-        seof_pi_df = tabula.read_pdf(output_path, pages="all", guess=False)
+        seof_pi_df = tabula.read_pdf(
+            output_path, pages="all", guess=False, pandas_options={"header": None}
+        )
 
         return seof_pi_df

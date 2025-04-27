@@ -166,7 +166,7 @@ class JanelaView(ctk.CTk):
     def __show_app_version(self):
         """Cria o label para exibir a versão da aplicação."""
         self.app_version = ctk.CTkLabel(
-            self, text="Versão 2.0.0", font=("default", 10), text_color="white"
+            self, text="Versão 2.1.7", font=("default", 10), text_color="white"
         )
         self.app_version.grid(row=21, column=0, pady=(20, 0), columnspan=2, sticky="s")
 
