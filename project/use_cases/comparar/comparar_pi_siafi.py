@@ -81,6 +81,8 @@ class CompararPiSiafi(CompararPisInterface):
                 response += f"|{n:^15}|{'':^17}|" + self.utils.replace_commas_and_dots(
                     f"{pi[n]['valor']:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n"
                 )
+
+                # mostrar os 0 dos elementos de despesa
                 for m in pi[n]["elementos de despesa"]:
                     response += f"|{n:^15}|{m:^17}|" + self.utils.replace_commas_and_dots(
                         f"{pi[n]['elementos de despesa'][m]['valor']:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n"
