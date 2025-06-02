@@ -23,7 +23,7 @@ class DicionarizarIndicesPiSiafi(DicionarizarIndicesInterface):
 
         columns_names_siafi_pi_list = plano_interno.columns.to_list()
         
-        pattern_only_plano_interno_column_result_siafi = r'((?:^|\s)\d{2}[-A-Z]{7,9}(?:\s|$))'
+        pattern_only_plano_interno_column_result_siafi = r'((?:^|\s)\d{2}[-A-Z\s]{7,9}(?:\s|$))'
         
         # para a chave do plano interno
         for w in dict_indices:
