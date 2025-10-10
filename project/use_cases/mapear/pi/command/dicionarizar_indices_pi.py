@@ -19,7 +19,7 @@ class DicionarizarIndices(DicionarizarIndicesInterface):
 
         plano_interno_df = pd.concat(plano_interno, ignore_index=True)
         columns_names_pi_list = plano_interno_df.columns.to_list() 
-        pattern_plano_interno = r'(^\d{2}(?:[A-Z]+|-[-A-Z]+(?: [A-Z]+)?))'
+        pattern_plano_interno = r'(^\d{2}(?:[A-Z]+\d?|-[-A-Z]+\d?(?: [A-Z]+d\?)?))'
         pattern_desdobramento_elemento_despesa_codigo = r'^\d{2}\.\d{2}\.\d{2}'
         dict_resultado_plano_interno = {}
 

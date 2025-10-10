@@ -21,7 +21,7 @@ class DicionarizarIndicesPiSeof(DicionarizarIndicesInterface):
 
         columns_names_plano_interno = plano_interno.columns.to_list()
 
-        pattern_plano_interno_seof = r"^\d{2}(?:[A-Z]+|-[-A-Z]+(?: [A-Z]+)?)"
+        pattern_plano_interno_seof = r'(^\d{2}(?:[A-Z]+\d?|-[-A-Z]+\d?(?: [A-Z]+d\?)?))'
         pattern_desdobramento_elemento_despesa_seof = r"^\d{2}.\d{2}.\d{2}"
 
         dict_resultado_plano_interno_seof = {}
@@ -89,7 +89,7 @@ class DicionarizarIndicesPiSeof(DicionarizarIndicesInterface):
                                 dict_resultado_plano_interno_seof[nome_plano_interno_seof]['elementos de despesa'][nome_elemento_despesa_seof]['desdobramentos de despesa'][nome_desdobramento_despesa_seof] = {'indice': [k], 'valor': dotacao_desdobramento_despesa_seof}
                             else:
                                 dict_resultado_plano_interno_seof[nome_plano_interno_seof]['elementos de despesa'][nome_elemento_despesa_seof]['desdobramentos de despesa'][nome_desdobramento_despesa_seof]['indice'].append(k)
-                                dict_resultado_plano_interno_seof[nome_plano_interno_seof]['elementos de despesa'][nome_elemento_despesa_seof]['desdobramentos de despesa'][nome_desdobramento_despesa_seof]['valor']
+                                dict_resultado_plano_interno_seof[nome_plano_interno_seof]['elementos de despesa'][nome_elemento_despesa_seof]['desdobramentos de despesa'][nome_desdobramento_despesa_seof]['valor']+=float(dotacao_desdobramento_despesa_seof)
 
         return dict_resultado_plano_interno_seof
 

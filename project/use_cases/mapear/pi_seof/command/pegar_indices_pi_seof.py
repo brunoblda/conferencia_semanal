@@ -23,7 +23,7 @@ class PegarIndicesPiSeof(PegarIndicesInterface):
         columns_names_seof_pi_list = plano_interno.columns.to_list()
 
         # pattern para encontrar os planos interno "10-AIMOVEIS"
-        pattern_plano_interno_seof = r'(^\d{2}(?:[A-Z]+|-[-A-Z]+(?: [A-Z]+)?))'
+        pattern_plano_interno_seof = r'(^\d{2}(?:[A-Z]+\d?|-[-A-Z]+\d?(?: [A-Z]+d\?)?))'
 
         extracted_list = []
 

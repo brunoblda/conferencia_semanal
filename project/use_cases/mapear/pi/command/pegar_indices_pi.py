@@ -23,7 +23,7 @@ class PegarIndicesPi(PegarIndicesInterface):
         # pattern para encontrar os planos interno "10-AIMOVEIS"
 
         # pattern_plano_interno = r'^\d{2}[-A-Z]'
-        pattern_plano_interno = r'(^\d{2}(?:[A-Z]+|-[-A-Z]+(?: [A-Z]+)?))'
+        pattern_plano_interno = r'(^\d{2}(?:[A-Z]+\d?|-[-A-Z]+\d?(?: [A-Z]+d\?)?))'
         # matched_rows_planos_internos = pi_df[1].str.match(pattern_plano_interno).fillna(False)
 
         extracted_list = []
