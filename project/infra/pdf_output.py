@@ -16,7 +16,7 @@ class PdfOutput(PdfOutputInterface):
             self.pdf.add_page()
             self.pdf.set_font(family="Courier", size=10)
             self.pdf.multi_cell(0, 10, data["response"])
-            self.pdf.output(f"{output_name_sanitized}_{data['status']}.pdf", "F")
+            self.pdf.output(f"./resultados/{output_name_sanitized}_{data['status']}.pdf", "F")
         except PermissionError as e:
             raise FileStillOpened(f"Fechar o arquivo {output_name_sanitized}_{data['status']}.pdf") from e
     

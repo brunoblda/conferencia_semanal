@@ -8,5 +8,4 @@ class CriarPastas(CriarPastasInterface):
 
     def execute(self) -> None:
         """Cria pastas"""
-        os.makedirs("./excel", exist_ok=True)
-        os.makedirs("./pdf_ocr", exist_ok=True)
+        os.makedirs("./resultados", exist_ok=True)
