@@ -19,7 +19,12 @@ class LerDadosPi(LerDadosInterface):
             file.write(java_version)
 
         pi_list = tabula.read_pdf(
-            output_path, pages="all", guess=False, pandas_options={"header": None}
+            output_path,
+            pages="all",
+            stream=True,
+            guess=False,
+            area=[46.48, 120.48, 790.23, 471.53],
+            pandas_options={"header": None}
         )
 
         return pi_list
