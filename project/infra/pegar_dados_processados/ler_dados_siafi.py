@@ -16,7 +16,7 @@ class LerDadosSiafi(LerDadosInterface):
         siafi_dasf_df = tabula.read_pdf(
             output_path,
             pages="all",
-            stream=True,
+            lattice=True,
             guess=False,
             area=[82.58, 554.45, 523.41, 753.30],
             pandas_options={"header": None}
