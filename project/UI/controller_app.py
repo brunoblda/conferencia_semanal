@@ -48,25 +48,18 @@ class ControllerApp:
         today_str = today.strftime("%d/%m/%Y")
         return today_str
 
-    def __comparar_pi_seof(
-        self, input_file_path_principal, input_file_path_secundario, data_da_conferencia
+    def __comparar_pi(
+        self,
+        composer,
+        input_file_path_principal,
+        input_file_path_secundario,
+        data_da_conferencia,
     ):
-        """Compara PI com SEOF."""
+        """Compara PI usando o composer informado (SEOF ou SIAFI)."""
         request_adapted = comparar_pi_request_adapter(
             input_file_path_principal, input_file_path_secundario, data_da_conferencia
         )
-        pi_seof_comparado = comparar_pi_seof_composer(request_adapted)
-        return pi_seof_comparado
-
-    def __comparar_pi_siafi(
-        self, input_file_path_principal, input_file_path_secundario, data_da_conferencia
-    ):
-        """Compara PI com SIAFI."""
-        request_adapted = comparar_pi_request_adapter(
-            input_file_path_principal, input_file_path_secundario, data_da_conferencia
-        )
-        pi_siafi_comparado = comparar_pi_siafi_composer(request_adapted)
-        return pi_siafi_comparado
+        return composer(request_adapted)
 
     def on_compare_seof(
         self,
@@ -76,8 +69,9 @@ class ControllerApp:
         callback,
     ):
         self.__run_in_thread(
-            self.__comparar_pi_seof,
+            self.__comparar_pi,
             callback,
+            comparar_pi_seof_composer,
             input_file_path_principal,
             input_file_path_secundario,
             data_da_conferencia,
@@ -91,8 +85,9 @@ class ControllerApp:
         callback,
     ):
         self.__run_in_thread(
-            self.__comparar_pi_siafi,
+            self.__comparar_pi,
             callback,
+            comparar_pi_siafi_composer,
             input_file_path_principal,
             input_file_path_secundario,
             data_da_conferencia,
