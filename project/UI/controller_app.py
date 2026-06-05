@@ -2,6 +2,8 @@ import logging
 import threading
 from datetime import date
 
+import jpype
+
 from project.errors.error_handler import handle_error
 from project.infra.criar_pastas import CriarPastas
 from project.infra.initial_configs import InitialConfigs
@@ -20,7 +22,9 @@ class ControllerApp:
         """Executa uma função em um thread e captura exceções."""
         self.__cleanup_finished_threads()
         thread = threading.Thread(
-            target=self.__thread_wrapper, args=(target, callback, *args)
+            target=self.__thread_wrapper,
+            args=(target, callback, *args),
+            daemon=True,
         )
         thread.start()
         self.threads.append(thread)
@@ -112,3 +116,12 @@ class ControllerApp:
             if thread.is_alive():
                 logging.getLogger().warning("Thread não finalizou dentro do timeout")
         self.threads.clear()
+        self.__shutdown_jvm()
+
+    def __shutdown_jvm(self):
+        """Encerra a JVM do JPype para liberar o processo Python no fechamento."""
+        try:
+            if jpype.isJVMStarted():
+                jpype.shutdownJVM()
+        except Exception:
+            logging.getLogger().warning("Falha ao encerrar JVM do JPype", exc_info=True)
