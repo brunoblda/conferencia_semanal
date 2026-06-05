@@ -21,7 +21,7 @@ class DicionarizarIndicesPiSeof(DicionarizarIndicesInterface):
 
         columns_names_plano_interno = plano_interno.columns.to_list()
 
-        pattern_plano_interno_seof = r'(^\d{2}(?:[A-Z]+\d?|-[-A-Z]+\d?(?: [A-Z]+d\?)?))'
+        pattern_plano_interno_seof = r'(^\d{1,2}(?:[A-Z]+\d?|-[-A-Z]+\d?(?: [A-Z]+d\?)?))'
         pattern_desdobramento_elemento_despesa_seof = r"^\d{2}.\d{2}.\d{2}"
 
         dict_resultado_plano_interno_seof = {}
