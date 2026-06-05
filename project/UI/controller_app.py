@@ -1,6 +1,4 @@
 import logging
-import os
-import signal
 import threading
 from datetime import date
 
@@ -20,11 +18,16 @@ class ControllerApp:
 
     def __run_in_thread(self, target, callback, *args):
         """Executa uma função em um thread e captura exceções."""
+        self.__cleanup_finished_threads()
         thread = threading.Thread(
             target=self.__thread_wrapper, args=(target, callback, *args)
         )
         thread.start()
         self.threads.append(thread)
+
+    def __cleanup_finished_threads(self):
+        """Remove da lista as threads que já terminaram."""
+        self.threads = [thread for thread in self.threads if thread.is_alive()]
 
     def __thread_wrapper(self, target, callback, *args):
         """Wrapper para executar a função alvo e capturar exceções."""
@@ -108,8 +111,9 @@ class ControllerApp:
     def stop(self):
         """Método para parar todos os threads."""
         self._stop_event.set()
+        self.__cleanup_finished_threads()
         for thread in self.threads:
-            thread.join()
+            thread.join(timeout=3)
+            if thread.is_alive():
+                logging.getLogger().warning("Thread não finalizou dentro do timeout")
         self.threads.clear()
-        PID = os.getpid()
-        os.kill(PID, signal.SIGTERM)

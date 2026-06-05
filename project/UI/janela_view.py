@@ -201,15 +201,19 @@ class JanelaView(ctk.CTk):
                     self.entry_plano_interno.get(),
                     self.entry_seof.get(),
                     self.data_conferencia_label_data.cget("text"),
-                    self.__handle_compare_result,
+                    self.__dispatch_compare_result_main_thread,
                 )
             elif self.radio_var.get() == 2:
                 self.__controller.on_compare_siafi(
                     self.entry_plano_interno.get(),
                     self.entry_siafi.get(),
                     self.data_conferencia_label_data.cget("text"),
-                    self.__handle_compare_result,
+                    self.__dispatch_compare_result_main_thread,
                 )
+
+    def __dispatch_compare_result_main_thread(self, result: ResponseFormat):
+        """Agenda o callback na thread principal do Tkinter."""
+        self.after(0, self.__handle_compare_result, result)
 
     def __handle_compare_result(self, result: ResponseFormat):
         """Função para lidar com o resultado da comparação."""
