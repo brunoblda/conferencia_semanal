@@ -89,7 +89,9 @@ class DicionarizarIndicesPiSeof(DicionarizarIndicesInterface):
                                 dict_resultado_plano_interno_seof[nome_plano_interno_seof]['elementos de despesa'][nome_elemento_despesa_seof]['desdobramentos de despesa'][nome_desdobramento_despesa_seof] = {'indice': [k], 'valor': dotacao_desdobramento_despesa_seof}
                             else:
                                 dict_resultado_plano_interno_seof[nome_plano_interno_seof]['elementos de despesa'][nome_elemento_despesa_seof]['desdobramentos de despesa'][nome_desdobramento_despesa_seof]['indice'].append(k)
-                                dict_resultado_plano_interno_seof[nome_plano_interno_seof]['elementos de despesa'][nome_elemento_despesa_seof]['desdobramentos de despesa'][nome_desdobramento_despesa_seof]['valor']+=float(dotacao_desdobramento_despesa_seof)
+                                dict_resultado_plano_interno_seof[nome_plano_interno_seof]['elementos de despesa'][nome_elemento_despesa_seof]['desdobramentos de despesa'][nome_desdobramento_despesa_seof]['valor'] = round(
+                                    dict_resultado_plano_interno_seof[nome_plano_interno_seof]['elementos de despesa'][nome_elemento_despesa_seof]['desdobramentos de despesa'][nome_desdobramento_despesa_seof]['valor'] + float(dotacao_desdobramento_despesa_seof)
+                                , 2)
 
         return dict_resultado_plano_interno_seof
 
