@@ -24,7 +24,7 @@ class PegarIndicesPiSiafi(PegarIndicesInterface):
         columns_names_siafi_pi_list = siafi_pi_df.columns.to_list()
 
         # patterns para encontrar os planos internos
-        pattern_plano_interno_column_result_siafi = r'(((?:^|\s)(?:\d{1,2}[-A-Z]{2,9}\d?)(?:\s|$))|((?:^|\s)-8(?:\s|$)))'
+        pattern_plano_interno_column_result_siafi = r'(((?:^|\s)(?:\d{1,2}[-A-Z]{2,9}\d?)(?:\s|$))|((?:^|\s)-8(?:\s|$))|(^\b[A-Z]{5}-[A-Z]{5}))'
 
         extracted_list = []
 
