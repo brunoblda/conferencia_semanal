@@ -3,7 +3,7 @@ from project.adapters.controllers.popular_plano_interno_controller import (
     PopularPlanoInternoController,
 )
 from project.adapters.presenters.response_format import ResponseFormat
-from project.domain.entities.plano_interno import PlanoInternoPi
+from project.domain.entities.plano_interno_pi import PlanoInternoPi
 from project.domain.entities.plano_interno_seof import PlanoInternoSeof
 from project.infra.pdf_output import PdfOutputArquivo
 from project.infra.pegar_dados_processados.ler_dados_pi import LerDadosPi

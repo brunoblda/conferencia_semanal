@@ -1,4 +1,4 @@
-from project.domain.entities.plano_interno import PlanoInternoPi
+from project.domain.entities.plano_interno_pi import PlanoInternoPi
 from project.domain.entities.plano_interno_seof import PlanoInternoSeof
 from project.domain.entities.plano_interno_siafi import PlanoInternoSiafi
 from project.domain.interfaces.plano_interno import PlanoInterno as PlanoInternoInterface
