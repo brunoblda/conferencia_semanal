@@ -2,7 +2,7 @@ import logging
 import sys
 
 from project.errors.error_handler import handle_error
-from project.infra.criar_pastas import CriarPastas
+from project.infra.criar_pastas import CriarPastasSistema
 from project.infra.initial_configs import InitialConfigs
 from project.main.adapters.comparar_pi_request_adapter import comparar_pi_request_adapter
 from project.main.composer.comparar_pi_seof_composer import comparar_pi_seof_composer
@@ -42,7 +42,7 @@ class App:
         )
 
     def __criar_pastas(self):
-        criar_pastas = CriarPastas()
+        criar_pastas = CriarPastasSistema()
         criar_pastas.execute()
 
     def __inicializar_configs(self):

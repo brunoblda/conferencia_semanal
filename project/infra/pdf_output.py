@@ -5,7 +5,7 @@ from project.use_cases.interfaces.pdf_output import PdfOutput as PdfOutputInterf
 from project.errors.types import FileStillOpened
 
 
-class PdfOutput(PdfOutputInterface):
+class PdfOutputArquivo(PdfOutputInterface):
     def __init__(self) -> None:
         self.pdf = FPDF()
 

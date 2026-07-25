@@ -1,7 +1,7 @@
 from project.domain.interfaces.plano_interno import PlanoInterno as PlanoInternoInterface
 
 
-class PlanoInterno(PlanoInternoInterface):
+class PlanoInternoPi(PlanoInternoInterface):
 
     def set(self, plano_interno: list) -> None:
         self.plano_interno: list = plano_interno

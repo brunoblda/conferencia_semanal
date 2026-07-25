@@ -6,12 +6,12 @@ from project.domain.interfaces.mapear.command.pegar_indices import (
     PegarIndices as PegarIndicesInterface,
 )
 
-from project.use_cases.interfaces.utilities.utils import Utils as UtilsInterface
+from project.services.utilities.utils import Utils
 
 class PegarIndicesPiSeof(PegarIndicesInterface):
     """Pega os indices do PI SEOF"""
 
-    def __init__(self, utils: UtilsInterface):
+    def __init__(self, utils: Utils):
         self.utils = utils
 
     def execute(self, plano_interno: pd.DataFrame) -> dict:

@@ -5,13 +5,13 @@ import pandas as pd
 from project.domain.interfaces.mapear.command.dicionarizar_indices import (
     DicionarizarIndices as DicionarizarIndicesInterface,
 )
-from project.use_cases.interfaces.utilities.utils import Utils as UtilsInterface
+from project.services.utilities.utils import Utils
 
 
 class DicionarizarIndicesPiSeof(DicionarizarIndicesInterface):
     """Dicionaria os indices do PI Seof"""
 
-    def __init__(self, utils: UtilsInterface):
+    def __init__(self, utils: Utils):
         self.utils = utils
 
     def execute(self, dict_indices: dict, plano_interno: pd.DataFrame) -> dict:

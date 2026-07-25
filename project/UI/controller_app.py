@@ -5,7 +5,7 @@ from datetime import date
 import jpype
 
 from project.errors.error_handler import handle_error
-from project.infra.criar_pastas import CriarPastas
+from project.infra.criar_pastas import CriarPastasSistema
 from project.infra.initial_configs import InitialConfigs
 from project.main.adapters.comparar_pi_request_adapter import comparar_pi_request_adapter
 from project.main.composer.comparar_pi_seof_composer import comparar_pi_seof_composer
@@ -99,7 +99,7 @@ class ControllerApp:
 
     def criar_pastas(self):
         """Cria as pastas necessárias para o funcionamento do aplicativo."""
-        criar_pastas = CriarPastas()
+        criar_pastas = CriarPastasSistema()
         criar_pastas.execute()
 
     def inicializar_configs(self):

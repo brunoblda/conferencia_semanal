@@ -6,13 +6,13 @@ from project.domain.interfaces.comparar.comparar_pis import (
     CompararPis as CompararPisInterface,
 )
 from project.services.types.response_data_comparar_pis import ResponseData
-from project.use_cases.interfaces.utilities.utils import Utils as UtilsInterface
+from project.services.utilities.utils import Utils
 
 
 class CompararPiSiafi(CompararPisInterface):
     """Compare PIs"""
 
-    def __init__(self, utils: UtilsInterface):
+    def __init__(self, utils: Utils):
         self.utils = utils
         self.status = "sem erro"
 
