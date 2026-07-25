@@ -1,18 +1,13 @@
-from project.domain.interfaces.mapear.mapear_pi import MapearPi as MapearPiInterface
 from project.domain.interfaces.plano_interno import PlanoInterno as PlanoInternoInterface
-from project.domain.interfaces.popular_plano_interno import (
-    PopularPlanoInterno as PopularPlanoInternoInterface,
-)
-from project.domain.interfaces.processar_dados_brutos.processar_dados_brutos import (
-    ProcessarDadosBrutos as ProcessarDadosBrutosInterface,
-)
+from project.use_cases.mapear.mapear_pi import MapearPi
+from project.use_cases.processar_dados_brutos.processar_dados_brutos import ProcessarDadosBrutos
 
 
-class PopularPlanoInterno(PopularPlanoInternoInterface):
+class PopularPlanoInterno:
     def __init__(
         self,
-        mapear_pi: MapearPiInterface,
-        processar_dados_bruto: ProcessarDadosBrutosInterface,
+        mapear_pi: MapearPi,
+        processar_dados_bruto: ProcessarDadosBrutos,
         plano_interno: PlanoInternoInterface,
     ) -> None:
         self.__mapear_pi = mapear_pi

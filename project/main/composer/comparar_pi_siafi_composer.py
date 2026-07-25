@@ -3,16 +3,16 @@ from project.adapters.controllers.popular_plano_interno_controller import (
     PopularPlanoInternoController,
 )
 from project.adapters.presenters.response_format import ResponseFormat
-from project.domain.entities.plano_interno import PlanoInterno
+from project.domain.entities.plano_interno import PlanoInternoPi
 from project.domain.entities.plano_interno_siafi import PlanoInternoSiafi
-from project.infra.pdf_output import PdfOutput
+from project.infra.pdf_output import PdfOutputArquivo
 from project.infra.pegar_dados_processados.ler_dados_pi import LerDadosPi
 from project.infra.pegar_dados_processados.ler_dados_siafi import LerDadosSiafi
 from project.services.utilities.utils import Utils
 from project.use_cases.comparar.comparar_pi_siafi import CompararPiSiafi
 from project.use_cases.mapear.mapear_pi import MapearPi
 from project.use_cases.mapear.pi.command.dicionarizar_indices_pi import (
-    DicionarizarIndices,
+    DicionarizarIndicesPi,
 )
 from project.use_cases.mapear.pi.command.pegar_indices_pi import PegarIndicesPi
 from project.use_cases.mapear.pi_siafi.command.dicionarizar_indices_pi_siafi import (
@@ -34,14 +34,14 @@ def comparar_pi_siafi_composer(request: dict) -> ResponseFormat:
     input_file_path_secundario = request["input_file_path_secundario"]
     data_da_conferencia = request["data_da_conferencia"]
 
-    plano_interno_pi = PlanoInterno()
+    plano_interno_pi = PlanoInternoPi()
     output_file_path_pi = f"./pdf_ocr/pi_{data_da_conferencia}.pdf"
     utils = Utils()
     ler_dados_pi = LerDadosPi()
     processar_dados_bruto = ProcessarDadosBrutos(
         ler_dados_pi,
     )
-    dicionarizar_indices = DicionarizarIndices(utils)
+    dicionarizar_indices = DicionarizarIndicesPi(utils)
     pegar_indices = PegarIndicesPi(utils)
     mapear_pi = MapearPi(dicionarizar_indices, pegar_indices)
     popular_plano_interno = PopularPlanoInterno(
@@ -79,7 +79,7 @@ def comparar_pi_siafi_composer(request: dict) -> ResponseFormat:
 
     comparar_pi_siafi = CompararPiSiafi(utils)
 
-    pdf_output = PdfOutput()
+    pdf_output = PdfOutputArquivo()
 
     pdf_output_name = f"resultado_PI_SIAFI_{data_da_conferencia}"
 

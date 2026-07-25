@@ -1,6 +1,3 @@
-from project.adapters.interfaces.comparar_pis_controller import (
-    CompararPisController as CompararPisControllerInterface,
-)
 from project.adapters.presenters.response_format import ResponseFormat
 from project.domain.interfaces.comparar.comparar_pis import (
     CompararPis as CompararPisInterface,
@@ -9,7 +6,7 @@ from project.services.types.response_data_comparar_pis import ResponseData
 from project.use_cases.interfaces.pdf_output import PdfOutput as PdfOutputInterface
 
 
-class CompararPisController(CompararPisControllerInterface):
+class CompararPisController:
     """Controller to compare PI_principal com PI_secundário"""
 
     def __init__(

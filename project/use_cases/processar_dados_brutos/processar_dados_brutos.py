@@ -1,13 +1,10 @@
 import pandas as pd
 
-from project.domain.interfaces.processar_dados_brutos.processar_dados_brutos import (
-    ProcessarDadosBrutos as ProcessarDadosBrutosInterface,
-)
 from project.use_cases.interfaces.pegar_dados_processados.ler_dados import (
     LerDados as LerDadosInterface,
 )
 
-class ProcessarDadosBrutos(ProcessarDadosBrutosInterface):
+class ProcessarDadosBrutos:
     """ Class to processar dados brutos """
     def __init__(
         self,

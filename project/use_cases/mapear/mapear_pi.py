@@ -6,10 +6,9 @@ from project.domain.interfaces.mapear.command.dicionarizar_indices import (
 from project.domain.interfaces.mapear.command.pegar_indices import (
     PegarIndices as PegarIndicesInterface,
 )
-from project.domain.interfaces.mapear.mapear_pi import MapearPi as MapearPiInterface
 
 
-class MapearPi(MapearPiInterface):
+class MapearPi:
     """Mapeia o PI"""
 
     def __init__(

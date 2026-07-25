@@ -1,15 +1,10 @@
-from project.adapters.interfaces.popular_plano_interno_controller import (
-    PopularPlanoInternoController as PopularPlanoInternoControllerInterface,
-)
 from project.domain.interfaces.plano_interno import PlanoInterno as PlanoInternoInterface
-from project.domain.interfaces.popular_plano_interno import (
-    PopularPlanoInterno as PopularPlanoInternoInterface,
-)
+from project.use_cases.popular_plano_interno import PopularPlanoInterno
 
 
-class PopularPlanoInternoController(PopularPlanoInternoControllerInterface):
+class PopularPlanoInternoController:
 
-    def __init__(self, popular_plano_interno: PopularPlanoInternoInterface) -> None:
+    def __init__(self, popular_plano_interno: PopularPlanoInterno) -> None:
         self.__popular_plano_interno = popular_plano_interno
 
     def handle_request(
