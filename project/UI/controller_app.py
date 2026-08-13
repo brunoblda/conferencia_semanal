@@ -7,9 +7,15 @@ import jpype
 from project.errors.error_handler import handle_error
 from project.infra.criar_pastas import CriarPastasSistema
 from project.infra.initial_configs import InitialConfigs
-from project.main.adapters.comparar_pi_request_adapter import comparar_pi_request_adapter
+from project.main.adapters.comparar_request_adapter import comparar_request_adapter
 from project.main.composer.comparar_pi_seof_composer import comparar_pi_seof_composer
 from project.main.composer.comparar_pi_siafi_composer import comparar_pi_siafi_composer
+from project.main.composer.comparar_reserva_pi_seof_composer import (
+    comparar_reserva_pi_seof_composer,
+)
+from project.main.composer.comparar_reserva_pi_siafi_composer import (
+    comparar_reserva_pi_siafi_composer,
+)
 
 
 class ControllerApp:
@@ -60,7 +66,20 @@ class ControllerApp:
         data_da_conferencia,
     ):
         """Compara PI usando o composer informado (SEOF ou SIAFI)."""
-        request_adapted = comparar_pi_request_adapter(
+        request_adapted = comparar_request_adapter(
+            input_file_path_principal, input_file_path_secundario, data_da_conferencia
+        )
+        return composer(request_adapted)
+
+    def __comparar_reserva(
+        self,
+        composer,
+        input_file_path_principal,
+        input_file_path_secundario,
+        data_da_conferencia,
+    ):
+        """Compara Reserva usando o composer informado (SEOF ou SIAFI)."""
+        request_adapted = comparar_request_adapter(
             input_file_path_principal, input_file_path_secundario, data_da_conferencia
         )
         return composer(request_adapted)
@@ -80,6 +99,22 @@ class ControllerApp:
             input_file_path_secundario,
             data_da_conferencia,
         )
+    
+    def on_compare_reserva_seof(
+        self,
+        input_file_path_principal,
+        input_file_path_secundario,
+        data_da_conferencia,
+        callback,
+    ):
+        self.__run_in_thread(
+            self.__comparar_reserva,
+            callback,
+            comparar_reserva_pi_seof_composer,
+            input_file_path_principal,
+            input_file_path_secundario,
+            data_da_conferencia,
+        )
 
     def on_compare_siafi(
         self,
@@ -92,6 +127,22 @@ class ControllerApp:
             self.__comparar_pi,
             callback,
             comparar_pi_siafi_composer,
+            input_file_path_principal,
+            input_file_path_secundario,
+            data_da_conferencia,
+        )
+    
+    def on_compare_reserva_siafi(
+        self,
+        input_file_path_principal,
+        input_file_path_secundario,
+        data_da_conferencia,
+        callback,
+    ):
+        self.__run_in_thread(
+            self.__comparar_reserva,
+            callback,
+            comparar_reserva_pi_siafi_composer,
             input_file_path_principal,
             input_file_path_secundario,
             data_da_conferencia,

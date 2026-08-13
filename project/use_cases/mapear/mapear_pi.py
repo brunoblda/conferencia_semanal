@@ -1,5 +1,5 @@
 import pandas as pd
-
+from project.use_cases.mapear.mapear import Mapear
 from project.domain.interfaces.mapear.command.dicionarizar_indices import (
     DicionarizarIndices as DicionarizarIndicesInterface,
 )
@@ -8,7 +8,7 @@ from project.domain.interfaces.mapear.command.pegar_indices import (
 )
 
 
-class MapearPi:
+class MapearPi(Mapear):
     """Mapeia o PI"""
 
     def __init__(
