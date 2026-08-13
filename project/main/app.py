@@ -4,10 +4,9 @@ import sys
 from project.errors.error_handler import handle_error
 from project.infra.criar_pastas import CriarPastasSistema
 from project.infra.initial_configs import InitialConfigs
-from project.main.adapters.comparar_pi_request_adapter import comparar_pi_request_adapter
+from project.main.adapters.comparar_request_adapter import comparar_pi_request_adapter
 from project.main.composer.comparar_pi_seof_composer import comparar_pi_seof_composer
 from project.main.composer.comparar_pi_siafi_composer import comparar_pi_siafi_composer
-from project.validators.conferencia_data_validator import conferencia_data_validator
 
 
 class App:
@@ -55,7 +54,6 @@ class App:
         input_file_path_secundario = input("Digite o caminho do arquivo do SEOF: ")
         print()
         try:
-            conferencia_data_validator(data_da_conferencia)
             request_adapted = comparar_pi_request_adapter(
                 input_file_path_principal,
                 input_file_path_secundario,
@@ -75,7 +73,6 @@ class App:
         input_file_path_secundario = input("Digite o caminho do arquivo do SIAFI: ")
         print()
         try:
-            conferencia_data_validator(data_da_conferencia)
             request_adapted = comparar_pi_request_adapter(
                 input_file_path_principal,
                 input_file_path_secundario,

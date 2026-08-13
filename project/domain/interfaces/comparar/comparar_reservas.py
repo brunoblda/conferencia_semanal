@@ -1,12 +1,12 @@
-""" class to compare PIs """
+""" class to compare Reservas """
 
 from abc import ABC, abstractmethod
 
 import pandas as pd
 
 
-class CompararPis(ABC):
-    """Compare PIs"""
+class CompararReservas(ABC):
+    """Compare Reservas"""
 
     @abstractmethod
     def get_status(self) -> str:
@@ -19,6 +19,6 @@ class CompararPis(ABC):
         raise NotImplementedError("Method not implemented")
 
     @abstractmethod
-    def execute(self, pi_principal: pd.DataFrame, pi_secundario: pd.DataFrame):
-        """Execute the comparison of the PI with the PI Seof or PI Siafi"""
+    def execute(self, reserva_principal: pd.DataFrame, reserva_secundaria: pd.DataFrame):
+        """Execute the comparison of the reserva PI with the reserva SEOF or reserva SIAFI"""
         raise NotImplementedError("Method not implemented")

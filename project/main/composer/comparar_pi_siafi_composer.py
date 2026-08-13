@@ -36,7 +36,7 @@ def comparar_pi_siafi_composer(request: dict) -> ResponseFormat:
 
     plano_interno_pi = PlanoInternoPi()
     output_file_path_pi = f"./pdf_ocr/pi_{data_da_conferencia}.pdf"
-    utils = Utils()
+    utils = Utils
     ler_dados_pi = LerDadosPi()
     processar_dados_bruto = ProcessarDadosBrutos(
         ler_dados_pi,

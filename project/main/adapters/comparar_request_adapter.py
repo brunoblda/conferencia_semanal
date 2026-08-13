@@ -1,4 +1,4 @@
-def comparar_pi_request_adapter(
+def comparar_request_adapter(
     input_file_path_principal: str,
     input_file_path_secundario: str,
     data_da_conferencia: str,
