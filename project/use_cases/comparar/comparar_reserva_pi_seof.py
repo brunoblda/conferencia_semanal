@@ -123,7 +123,8 @@ class CompararReservaPiSeof(CompararReservasInterface):
                                 )
                         
                 else:
-                    response += f"|{codigo_ptres:^7}|{'':^25}|" + self.utils.replace_commas_and_dots(
+                    PTRES = list(dados_po_pi['PTRES'].keys())[0]  # Pega o primeiro PTRES da reserva PI
+                    response += f"|{PTRES:^7}|{'':^25}|" + self.utils.replace_commas_and_dots(
                         f"{dados_po_pi['valor']:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n"
                     )
 
