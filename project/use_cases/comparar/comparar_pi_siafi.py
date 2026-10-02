@@ -75,18 +75,24 @@ class CompararPiSiafi(CompararPisInterface):
                         response += f"|{n:^15}|{m:^17}|" + self.utils.replace_commas_and_dots(
                             f"{pi[n]['elementos de despesa'][m]['valor']:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n"
                         )
+                        if not pi[n]['elementos de despesa'][m]['valor']:
+                            self.update_status(update_status_com_erro)
 
             # se o plano interno não estiver no dicionario de planos internos do siafi
             else:
                 response += f"|{n:^15}|{'':^17}|" + self.utils.replace_commas_and_dots(
                     f"{pi[n]['valor']:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n"
                 )
+                if not pi[n]['valor']:
+                    self.update_status(update_status_com_erro)
 
                 # mostrar os 0 dos elementos de despesa
                 for m in pi[n]["elementos de despesa"]:
                     response += f"|{n:^15}|{m:^17}|" + self.utils.replace_commas_and_dots(
                         f"{pi[n]['elementos de despesa'][m]['valor']:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n"
                     )
+                    if not pi[n]['elementos de despesa'][m]['valor']:
+                        self.update_status(update_status_com_erro)
 
         data: ResponseData = {"response": response, "status": self.get_status()}
 

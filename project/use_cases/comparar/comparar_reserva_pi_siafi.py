@@ -75,11 +75,15 @@ class CompararReservaPiSiafi(CompararReservasInterface):
                                 response += f"|{codigo_ptres_reserva_pi:^7}|{codigo_natureza_reserva_pi:^25}|" + self.utils.replace_commas_and_dots(
                                     f"{dados_natureza_reserva_pi['valor']:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n"
                                 )
+                                if not dados_natureza_reserva_pi['valor']:
+                                    self.update_status(update_status_com_erro)
             
                     else:
                         response += f"|{codigo_ptres_reserva_pi:^7}|{'':^25}|" + self.utils.replace_commas_and_dots(
                             f"{dados_ptres_reserva_pi['valor']:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n"
                         )
+                        if not dados_ptres_reserva_pi['valor']:
+                            self.update_status(update_status_com_erro)
                             
         data: ResponseData = {"response": response, "status": self.get_status()}
         

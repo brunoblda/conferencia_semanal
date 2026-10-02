@@ -86,47 +86,53 @@ class CompararReservaPiSeof(CompararReservasInterface):
                                         f"{dados_natureza_pi['valor']:^15,.2f}|{reserva_seof[best_nome_po_seof][codigo_natureza_pi[:3]]['valor']:^15,.2f}|{diferenca_valor_natureza:^17,.2f}|\n"
                                     )
                         
-                                    for item in list_itens_reserva_pi:
-                                        item_nome_reserva_pi = item['item']
-                                        item_valor_reserva_pi = item['valor']
+                                for item in list_itens_reserva_pi:
+                                    item_nome_reserva_pi = item['item']
+                                    item_valor_reserva_pi = item['valor']
 
-                                        # Encontrar o melhor item correspondente no SEOF
+                                    # Encontrar o melhor item correspondente no SEOF
                             
-                                        if item_valor_reserva_pi != 0:
+                                    if item_valor_reserva_pi != 0:
 
-                                            list_nome_itens_reserva_seof = [seof_item['item'] for seof_item in reserva_seof[best_nome_po_seof][codigo_natureza_pi[:3]]['itens']]
+                                        list_nome_itens_reserva_seof = [seof_item['item'] for seof_item in reserva_seof[best_nome_po_seof][codigo_natureza_pi[:3]]['itens']]
                             
-                                            best_item_seof = calcular_similaridade(item_nome_reserva_pi, list_nome_itens_reserva_seof)
+                                        best_item_seof = calcular_similaridade(item_nome_reserva_pi, list_nome_itens_reserva_seof)
 
-                                            if best_item_seof in [seof_item['item'] for seof_item in reserva_seof[best_nome_po_seof][codigo_natureza_pi[:3]]['itens']]:
-                                                seof_item_valor = next(
-                                                    seof_item['valor']
-                                                    for seof_item in reserva_seof[best_nome_po_seof][codigo_natureza_pi[:3]]['itens']
-                                                    if seof_item['item'] == best_item_seof
-                                                )
+                                        if best_item_seof in [seof_item['item'] for seof_item in reserva_seof[best_nome_po_seof][codigo_natureza_pi[:3]]['itens']]:
+                                            seof_item_valor = next(
+                                                seof_item['valor']
+                                                for seof_item in reserva_seof[best_nome_po_seof][codigo_natureza_pi[:3]]['itens']
+                                                if seof_item['item'] == best_item_seof
+                                            )
 
-                                                if item_valor_reserva_pi != seof_item_valor:
-                                                    self.update_status(update_status_com_erro)
-                                                    diferenca_valor_item = item_valor_reserva_pi - seof_item_valor
-                                                    response += f"|{codigo_ptres:^7}|{item_nome_reserva_pi[:25]:^25}|" + self.utils.replace_commas_and_dots(
-                                                        f"{item_valor_reserva_pi:^15,.2f}|{seof_item_valor:^15,.2f}|{diferenca_valor_item:^17,.2f}|\n"
-                                                    )
-
-                                            else:
+                                            if item_valor_reserva_pi != seof_item_valor:
+                                                self.update_status(update_status_com_erro)
+                                                diferenca_valor_item = item_valor_reserva_pi - seof_item_valor
                                                 response += f"|{codigo_ptres:^7}|{item_nome_reserva_pi[:25]:^25}|" + self.utils.replace_commas_and_dots(
-                                                    f"{item_valor_reserva_pi:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n"
+                                                    f"{item_valor_reserva_pi:^15,.2f}|{seof_item_valor:^15,.2f}|{diferenca_valor_item:^17,.2f}|\n"
                                                 )
+
+                                        else:
+                                            response += f"|{codigo_ptres:^7}|{item_nome_reserva_pi[:25]:^25}|" + self.utils.replace_commas_and_dots(
+                                                f"{item_valor_reserva_pi:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n"
+                                            )
+                                            if not item_valor_reserva_pi:
+                                                self.update_status(update_status_com_erro)
                                     
                             else:
                                 response += f"|{codigo_ptres:^7}|{codigo_natureza_pi:^25}|" + self.utils.replace_commas_and_dots(
                                     f"{dados_natureza_pi['valor']:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n"
                                 )
+                                if not dados_natureza_pi['valor']:
+                                    self.update_status(update_status_com_erro)
                         
                 else:
                     PTRES = list(dados_po_pi['PTRES'].keys())[0]  # Pega o primeiro PTRES da reserva PI
                     response += f"|{PTRES:^7}|{'':^25}|" + self.utils.replace_commas_and_dots(
                         f"{dados_po_pi['valor']:^15,.2f}|{'':^15}|{'Não encontrado':^17}|\n"
                     )
+                    if not dados_po_pi['valor']:
+                        self.update_status(update_status_com_erro)
 
         data: ResponseData = {"response": response, "status": self.get_status()}
         

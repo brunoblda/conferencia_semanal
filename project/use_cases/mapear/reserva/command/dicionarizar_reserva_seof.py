@@ -88,13 +88,16 @@ class DicionarizarReservaSeof(dicionarizarReservaInterface):
                         elif natureza_atual[:3] == '4.4':
                             natureza_atual = '4.4' 
 
-                        item_atual = celula[:-12].strip()
                         valor_item = None
 
                         # procura o valor do item em cada coluna da linha
                         for col_scan in range(len(num_columns_pi_reserva_list)):
                             if self.utils.is_numero(seof_pi_reserva_df.iloc[i, col_scan]):
                                 valor_item = self.utils.value_hygienization(seof_pi_reserva_df.iloc[i, col_scan])
+                            elif not str(seof_pi_reserva_df.iloc[i, col_scan]).strip() == 'nan':
+                                has_string = re.sub(r"\d\.\d\.\d{2}\.\d{2}\.\d$", "", str(seof_pi_reserva_df.iloc[i, col_scan]))
+                                if has_string:
+                                    item_atual = re.sub(r"\s+\d\.\d\.\d{2}\.\d{2}\.\d$", "", str(seof_pi_reserva_df.iloc[i, col_scan])).strip()
 
                         # Salva o valor no item 
                         dict_seof_pos_reserva[po_atual][natureza_atual]['itens'].append({'item': item_atual, 'posicao': (i, j), 'valor': valor_item})
