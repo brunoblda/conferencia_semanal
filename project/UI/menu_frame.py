@@ -3,8 +3,9 @@ import customtkinter as ctk
 class MenuFrame(ctk.CTkFrame):
     """Classe para o frame do menu da aplicação"""
 
-    def __init__(self, master) -> None:
+    def __init__(self, master, app_version_text) -> None:
         super().__init__(master)
+        self.app_version_text = app_version_text
         self.view_janela()
     
     def view_janela(self):
@@ -46,6 +47,6 @@ class MenuFrame(ctk.CTkFrame):
     def __show_app_version(self):
         """Cria o label para exibir a versão da aplicação."""
         self.app_version = ctk.CTkLabel(
-            self, text="Versão 3.0.2", font=("default", 10), text_color="white"
+            self, text=self.app_version_text, font=("default", 10), text_color="white"
         )
         self.app_version.grid(row=3, column=0, pady=(20,10), columnspan=2, sticky="s")

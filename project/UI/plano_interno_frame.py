@@ -10,9 +10,10 @@ from project.UI.pop_up_loading import PopUpLoading
 class PlanoInternoFrame(ctk.CTkFrame):
     """ Classe para o frame de menu da aplicação. """
 
-    def __init__(self, master, controller: ControllerApp):
+    def __init__(self, master, controller: ControllerApp, app_version_text):
         super().__init__(master)
         self.__controller = controller
+        self.app_version_text = app_version_text
         self.__view_janela()
         self.pop_up_loading = None
 
@@ -144,7 +145,7 @@ class PlanoInternoFrame(ctk.CTkFrame):
     def __show_app_version(self):
         """Cria o label para exibir a versão da aplicação."""
         self.app_version = ctk.CTkLabel(
-            self, text="Versão 3.0.2", font=("default", 10), text_color="white"
+            self, text=self.app_version_text, font=("default", 10), text_color="white"
         )
         self.app_version.grid(row=25, column=0, pady=(20,10), columnspan=2, sticky="s")
 

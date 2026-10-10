@@ -17,6 +17,7 @@ class JanelaView(ctk.CTk):
         self.__setup_janela()
         self.__controller = controller
         self.protocol("WM_DELETE_WINDOW", self.__on_closing)
+        self.app_version_text = "Versão 3.0.3"
         self.build_frames()
         self.mostrar_tela("Menu")
 
@@ -53,9 +54,9 @@ class JanelaView(ctk.CTk):
 
     def build_frames(self):
         """Constrói os frames da aplicação."""
-        self.__plano_interno_frame = PlanoInternoFrame(self, self.__controller)
-        self.__menu_frame = MenuFrame(self)
-        self.__reserva_frame = ReservaFrame(self, self.__controller)
+        self.__plano_interno_frame = PlanoInternoFrame(self, self.__controller, self.app_version_text)
+        self.__menu_frame = MenuFrame(self, self.app_version_text)
+        self.__reserva_frame = ReservaFrame(self, self.__controller, self.app_version_text)
         self.__frames = {
             "PlanoInterno": self.__plano_interno_frame,
             "Menu": self.__menu_frame,
